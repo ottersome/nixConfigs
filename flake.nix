@@ -24,7 +24,14 @@
       "lab716a" = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
-        modules = [./nixos/configuration.nix];
+        modules = [
+            ./nixos/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+            }
+          ];
       };
     };
 
@@ -35,7 +42,10 @@
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
-        modules = [./home-manager/lab716a-home.nix];
+        modules = [
+            ./home-manager/lab716a/lab716a-home.nix
+            ./modules/newuser.nix
+          ];
       };
       "racc@lab716a" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance

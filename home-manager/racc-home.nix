@@ -42,6 +42,10 @@
   home = {
     username = "lab716a";
     homeDirectory = "/home/lab716a";
+    # Simply stated packages
+    packages = [
+      lazygit
+    ]
   };
 
   # Add stuff for your user as you see fit:
