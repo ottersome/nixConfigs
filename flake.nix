@@ -26,25 +26,26 @@
     nixosConfigurations = {
       "lab716a" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
-        pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-        specialArgs = {inherit pkgs inputs;};
-        # > Our main nixos configuration file <
+        specialArgs = {inherit inputs outputs;};
         modules = [
             ./nixos/configuration.nix
-            # inputs.home-manager.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.racc = import ./home-manager/racc-home.nix;
-              # home-manager.extraSpecialArgs = specialArgs;
-            }
           ];
       };
     };
-
+    homeConfigurations = {
+      # FIXME replace with your username@hostname
+      "racc@lab716a" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        # > Our main home-manager configuration file <
+        modules = [./home-manager/racc-home.nix];
+      };
+      "nura@lab716a" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        # > Our main home-manager configuration file <
+        modules = [./home-manager/lab716a-home.nix.nix];
+      };
+    };
   };
 }

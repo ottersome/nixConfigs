@@ -20,25 +20,25 @@
     ./hardware-configuration.nix
   ];
 
-  # nixpkgs = {
-  #   # You can add overlays here
-  #   overlays = [
-  #     # If you want to use overlays exported from other flakes:
-  #     # neovim-nightly-overlay.overlays.default
-  #
-  #     # Or define it inline, for example:
-  #     # (final: prev: {
-  #     #   hi = final.hello.overrideAttrs (oldAttrs: {
-  #     #     patches = [ ./change-hello-to-hi.patch ];
-  #     #   });
-  #     # })
-  #   ];
-  #   # Configure your nixpkgs instance
-  #   config = {
-  #     # Disable if you don't want unfree packages
-  #     allowUnfree = true;
-  #   };
-  # };
+  nixpkgs = {
+    # You can add overlays here
+    overlays = [
+      # If you want to use overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    ];
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
+  };
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -100,6 +100,46 @@
     xkbVariant = "";
   };
 
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+  };
+
+  # Load nvidia driver for Xorg and Wayland
+  services.xserver.videoDrivers = ["nvidia"];
+
+  hardware.nvidia = {
+
+    # Modesetting is required.
+    modesetting.enable = true;
+
+    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    # Enable this if you have graphical corruption issues or application crashes after waking
+    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
+    # of just the bare essentials.
+    powerManagement.enable = false;
+
+    # Fine-grained power management. Turns off GPU when not in use.
+    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+    powerManagement.finegrained = false;
+
+    # Use the NVidia open source kernel module (not to be confused with the
+    # independent third-party "nouveau" open source driver).
+    # Support is limited to the Turing and later architectures. Full list of 
+    # supported GPUs is at: 
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Only available from driver 515.43.04+
+    # Currently alpha-quality/buggy, so false is currently the recommended setting.
+    open = false;
+
+    # Enable the Nvidia settings menu,
+	# accessible via `nvidia-settings`.
+    nvidiaSettings = true;
+
+    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -130,6 +170,20 @@
       isNormalUser = true;
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+      ];
+      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
+    };
+    nura = {
+      # TODO: You can set an initial password for your user.
+      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
+      # Be sure to change it (using passwd) after rebooting!
+      initialPassword = "itlablinux";
+      isNormalUser = true;
+      # shell = pkgs.zsh;
+      openssh.authorizedKeys.keys = [
+        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdKI0Y+LD6+K/VRSBE/8lNHI/8/hNywXIAQAbc9Z4kfYLKWGXF04N2/TI9KpWXuwGw7933U3BTjQDqbtBKPaO+koEWGIkrVLYWw2+UVHaF3c/NyIkMpXY9eqxQbUZ3HXv9IhVhkQXNeuYtKCoAYA2PWqV2Jja1YMLjaAZFU6OFuDXgj9qDgnceIdTG3haPChgV8sZdhuiZ/76n7OxBjqVPKAaTet2KOCxEDaAyQNSLenj4oi6IQ/xu/jUHfML0iiO5aQAsxDyzWnM/ayZFYJznvqXyLUD0Cr/NpD4Q2GrnJmvBzHKDk1859r4vxaRIHJW8R5SraMF09GB1vU4H4aRvv+o/15+sUydoVSan1uqNPtfXTxhOIrO8jIPYVIDLHyjlpxJmpndpRhgeFeql9Sg1hKe5TqXSmie5kcvVMKqlsTkEzlYLaephIBlSfIhOndw5zjGfyUvxcxHxIAFyzec0Gsvz4bTwRQzBFUKDjmy2NDsOO/WRXLo5M8T5I5cf3gGjGM9FSsKBmpFgY+keGZL04qcu/7fp8zN3hjolfaaBhGDi4SM4Y7ktFF3faamUCUeA8aK738Tj2YXVKmV8DnSyucij6omw/meluw9betST9DVlGWbnF5tb1tEqOaedmiI/mE9C9r5Aa3WY+5vuqyYBj+DfpAxeN0WRUBPuloDsiQ== nurassyl.askar@gmail.com
+"
       ];
       # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
     };
