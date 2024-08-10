@@ -5,6 +5,7 @@
   lib,
   config,
   pkgs,
+  passing_down,
   ...
 }: {
   # You can import other NixOS modules here
@@ -60,10 +61,10 @@
   };
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "lab716a";
+  networking.hostName = "${passing_down.host_name}";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -88,17 +89,17 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  # services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "";
-  };
+  # services.xserver = {
+  #   layout = "us";
+  #   xkbVariant = "";
+  # };
 
   # Enable OpenGL
   hardware.opengl = {
@@ -141,7 +142,7 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -157,58 +158,6 @@
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
     #media-session.enable = true;
-  };
-
-  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
-  users.users = {
-    # FIXME: Replace with your username
-    lab716a = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "itlablinux";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-      ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-    };
-    nura = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "itlablinux";
-      isNormalUser = true;
-      # shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDdKI0Y+LD6+K/VRSBE/8lNHI/8/hNywXIAQAbc9Z4kfYLKWGXF04N2/TI9KpWXuwGw7933U3BTjQDqbtBKPaO+koEWGIkrVLYWw2+UVHaF3c/NyIkMpXY9eqxQbUZ3HXv9IhVhkQXNeuYtKCoAYA2PWqV2Jja1YMLjaAZFU6OFuDXgj9qDgnceIdTG3haPChgV8sZdhuiZ/76n7OxBjqVPKAaTet2KOCxEDaAyQNSLenj4oi6IQ/xu/jUHfML0iiO5aQAsxDyzWnM/ayZFYJznvqXyLUD0Cr/NpD4Q2GrnJmvBzHKDk1859r4vxaRIHJW8R5SraMF09GB1vU4H4aRvv+o/15+sUydoVSan1uqNPtfXTxhOIrO8jIPYVIDLHyjlpxJmpndpRhgeFeql9Sg1hKe5TqXSmie5kcvVMKqlsTkEzlYLaephIBlSfIhOndw5zjGfyUvxcxHxIAFyzec0Gsvz4bTwRQzBFUKDjmy2NDsOO/WRXLo5M8T5I5cf3gGjGM9FSsKBmpFgY+keGZL04qcu/7fp8zN3hjolfaaBhGDi4SM4Y7ktFF3faamUCUeA8aK738Tj2YXVKmV8DnSyucij6omw/meluw9betST9DVlGWbnF5tb1tEqOaedmiI/mE9C9r5Aa3WY+5vuqyYBj+DfpAxeN0WRUBPuloDsiQ== nurassyl.askar@gmail.com
-"
-      ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-    };
-    racc = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "itlablinux";
-      isNormalUser = true;
-      # shell = pkgs.zsh;
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCw0fgl5QxyFmqY1Hcg2RSCm7XLQlIQ5naFY9S1OAmOV8LnTpqjG0YLs8K8Z2bgioykH8EBj0rnyMPNj31XmXZB55ss810yOMH4M4tpKpPdyvxOIxh+IcLluj4uiq018Tzj5+zXXhDQlh4HQdxqQFCvX7n/2VPF8GpWOd74wxO0HKirBAakxH+wvVrns62XAJyKYkTSMYHg1h8UMrKf2SLO3lVdmTmLHGxpLu+sa9jJnP9bZhop049EmGye2lSvrfn+ZWKMBnbsN4byLhrXCeVIDJ/4TJuJWqZmnWWw6Nbz7y8KKm4FdkhmVY/cXiYf6+1XThWePQwxcrpwC1voosy7ZXfXldV1jwTpU5d/3t4sfJ6Wufi2gys7b9HDdAbGJU+sU4hmi99JPUp59S23/kyl7x4/utcksodXmR67OBYqUZakvT27FpI1xq6ITMH6NvyNb1zLSOlVIFlVIrZjbOkkcqg3WoAZwk6kN9mDhQrzjxvMreCesx3bXjbuI+WbnE6B/vaz62u/WYfygIRupRkiunpSRA3qzOjt+iBbGJYmXzr7v762pdleG6ALznpqE4S7SaZO7/y+KU5INBUiqeC6iYD+5HWmCM69YZnj7du+CUdyAjEFXbHFGiZ6SccNwLKPpSNfXyTHDRHnRS7A2Rcdfeo5V5eZhXXwF2L18KECKQ== luisgarcia26284@gmail.com
-"
-      ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = ["wheel"];
-    };
-    root = {
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-	"ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCw0fgl5QxyFmqY1Hcg2RSCm7XLQlIQ5naFY9S1OAmOV8LnTpqjG0YLs8K8Z2bgioykH8EBj0rnyMPNj31XmXZB55ss810yOMH4M4tpKpPdyvxOIxh+IcLluj4uiq018Tzj5+zXXhDQlh4HQdxqQFCvX7n/2VPF8GpWOd74wxO0HKirBAakxH+wvVrns62XAJyKYkTSMYHg1h8UMrKf2SLO3lVdmTmLHGxpLu+sa9jJnP9bZhop049EmGye2lSvrfn+ZWKMBnbsN4byLhrXCeVIDJ/4TJuJWqZmnWWw6Nbz7y8KKm4FdkhmVY/cXiYf6+1XThWePQwxcrpwC1voosy7ZXfXldV1jwTpU5d/3t4sfJ6Wufi2gys7b9HDdAbGJU+sU4hmi99JPUp59S23/kyl7x4/utcksodXmR67OBYqUZakvT27FpI1xq6ITMH6NvyNb1zLSOlVIFlVIrZjbOkkcqg3WoAZwk6kN9mDhQrzjxvMreCesx3bXjbuI+WbnE6B/vaz62u/WYfygIRupRkiunpSRA3qzOjt+iBbGJYmXzr7v762pdleG6ALznpqE4S7SaZO7/y+KU5INBUiqeC6iYD+5HWmCM69YZnj7du+CUdyAjEFXbHFGiZ6SccNwLKPpSNfXyTHDRHnRS7A2Rcdfeo5V5eZhXXwF2L18KECKQ== luisgarcia26284@gmail.com
-"
-      ];
-    };
   };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
@@ -228,6 +177,7 @@
     neovim
     tmux
     rsync
+    btop
   ];
 
   services.tailscale = {

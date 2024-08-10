@@ -40,12 +40,11 @@
   # };
 
   home = {
-    username = "racc";
-    homeDirectory = "/home/racc";
+    username = "ottersome";
+    homeDirectory = "/home/ottersome";
     # Simply stated packages
     packages = with pkgs; [
       lazygit
-      pi-hole
     ];
     sessionVariables = {
       EDITOR = "nvim";
