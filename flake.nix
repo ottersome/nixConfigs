@@ -4,6 +4,7 @@
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     # Home manager
@@ -15,13 +16,19 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     ...
   } @ inputs: 
   let
-    # inherit (self) outputs;
+    inherit (self) outputs;
     passing_down = {
-      host_name = "garmakza";
+      host_name = "marza";
+    };
+    system = "x86_64-linux";
+    unstablePkgs = import nixpkgs-unstable {
+    	inherit system;
+	config.allowUnfree = true;
     };
   in {
     # NixOS configuration entrypoint
@@ -66,9 +73,28 @@
             ./nixos/configuration.nix
           ];
       };
+      "mobile" = nixpkgs.lib.nixosSystem rec{
+        system = "x86_64-linux";
+        #pkgs = import nixpkgs {
+        #    inherit system;
+        #    config.allowUnfree = true;
+        #  };
+        specialArgs = {inherit inputs unstablePkgs passing_down;};
+        # > Our main nixos configuration file <
+        modules = [
+            ./modules/users/personal.nix
+            ./nixos/laptop_configuration.nix
+          ];
+      };
     };
     homeConfigurations = {
       # FIXME replace with your username@hostname
+      "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
+        extraSpecialArgs = {inherit inputs outputs;};
+        # > Our main home-manager configuration file <
+        modules = [./home-manager/ottersome-home.nix];
+      };
       "racc@lab716a" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
