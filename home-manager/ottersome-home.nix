@@ -50,6 +50,7 @@
       firefox
       pywal
       onedriver
+      # obsidian
     ];
     sessionVariables = {
       EDITOR = "nvim";
@@ -72,12 +73,18 @@
   #wayland.windowManager.hyprland = {
   #  enable = true;
   #};
-  home.file."/home/ottersome/.config/hypr/hyprland.conf".text = ''
-$mod = SUPER
-bind = $mod, D, exec, wofi
-bind = $mod, b, exec, firefox
-bind = $mod, RETURN, exec, kitty
-    '';
+  home.file."/home/ottersome/.config/hypr/"= {
+    source = ./ottersome-home-configs/hypr;
+    recursive = false;
+  };
+  home.file."/home/ottersome/.config/waypaper/"= {
+    source = ./ottersome-home-configs/waypaper;
+    recursive = false;
+  };
+  home.file."/home/ottersome/.config/waybar/"= {
+    source = ./ottersome-home-configs/waybar;
+    recursive = false;
+  };
   home.file.".config/nvim" = {
     source = ./ottersome-home-configs/nvim;
     recursive = true;

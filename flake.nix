@@ -30,7 +30,7 @@
     system = "x86_64-linux";
     unstablePkgs = import nixpkgs-unstable {
     	inherit system;
-	config.allowUnfree = true;
+      config.allowUnfree = true;
     };
   in {
     # NixOS configuration entrypoint
@@ -77,10 +77,10 @@
       };
       "mobile" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
-        #pkgs = import nixpkgs {
-        #    inherit system;
-        #    config.allowUnfree = true;
-        #  };
+        pkgs = import nixpkgs {
+           inherit system;
+           config.allowUnfree = true;
+         };
         specialArgs = {inherit inputs unstablePkgs passing_down;};
         # > Our main nixos configuration file <
         modules = [

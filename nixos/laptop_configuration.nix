@@ -136,6 +136,7 @@
     xwayland.enable = true;
     #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
+  programs.thunar.enable = true;
 
   #services.xserver = {
   #      enable = true;
@@ -224,11 +225,15 @@
     btop
     home-manager
     brightnessctl
+    #pactl
+    #wpctl
+    playerctl
     #linux-g14 
     asusctl
     supergfxctl
     tlp
     lazygit
+    dunst
   ];
 
 
