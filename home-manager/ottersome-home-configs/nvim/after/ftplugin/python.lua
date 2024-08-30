@@ -1,0 +1,17 @@
+-- vim.opt.formatoptions:append("r")
+-- vim.opt.foldmethod = "indent"
+-- vim.opt.foldnestmax = 2
+
+-- Add luasnip snippets for this
+-- local luasnip = require("luasnip")
+-- local s = luasnip.snippet
+-- local t = luasnip.text_node
+-- local i = luasnip.insert_node
+--
+-- luasnip.add_snippets("all", {
+-- 	s("fexp", {
+-- 		t('"""\n'),
+-- 		i(1, "Explanation"),
+-- 		t('\n"""'),
+-- 	}),
+-- })
