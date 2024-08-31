@@ -89,6 +89,10 @@
     source = ./ottersome-home-configs/nvim;
     recursive = true;
   };
+  home.file.".config/tmux" = {
+    source = ./ottersome-home-configs/tmux;
+    recursive = false;
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
