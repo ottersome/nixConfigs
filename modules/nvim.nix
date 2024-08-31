@@ -64,9 +64,13 @@ in {
   home.shellAliases.nvim = (concatStringsSep " " buildEnv)
     + " SQLITE_CLIB_PATH=${pkgs.sqlite.out}/lib/libsqlite3.so " + "nvim";
 
-  home.file.".config/nvim" = {
-    source = ../home-manager/ottersome-home-configs/nvim;
-    recursive = true;
+  #home.file.".config/nvim" = {
+  #   source = ../home-manager/ottersome-home-configs/nvim;
+  #   recursive = true;
+  #};
+  xdg.configFile."nvim" = {
+    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/nvim;
   };
   home.sessionVariables = {
     EDITOR = "nvim";
