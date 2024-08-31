@@ -50,7 +50,13 @@
       firefox
       pywal
       onedriver
+      bluetuith
+      upower
+      swww
+      hyprpaper
       # obsidian
+      # For Neovim
+      gcc
     ];
     sessionVariables = {
       EDITOR = "nvim";
@@ -89,10 +95,22 @@
     source = ./ottersome-home-configs/nvim;
     recursive = true;
   };
-  home.file.".config/tmux" = {
-    source = ./ottersome-home-configs/tmux;
+
+  home.file.".config/tmux/tmux.conf" = {
+    source = ./ottersome-home-configs/tmux/tmux.conf;
     recursive = false;
   };
+
+  home.activation.installTPM = lib.hm.dag.entryAfter ["writeBoundary" "installPackages" "git"] ''
+    export PATH="${lib.makeBinPath (with pkgs; [ git ])}:$PATH"
+    TPM_DIR="${config.home.homeDirectory}/.tmux/plugins/tpm"
+    TPM_REPO="https://github.com/tmux-plugins/tpm"
+
+    if [ ! -d "$TPM_DIR" ]; then
+        git clone "$TPM_REPO" "$TPM_DIR"
+        echo 'REMEMBER: YOU HAVE TO Press <C-I>' to install tpm plugins.
+    fi
+  '';
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";

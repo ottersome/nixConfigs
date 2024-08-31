@@ -7,7 +7,7 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
-    #hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
+    hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05"; # 24.05
@@ -25,13 +25,14 @@
   let
     inherit (self) outputs;
     passing_down = {
-      host_name = "marza";
+      host_name = "trashcan";
     };
     system = "x86_64-linux";
     unstablePkgs = import nixpkgs-unstable {
     	inherit system;
       config.allowUnfree = true;
     };
+    inherit (nixpkgs) lib; #TOREM:
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'

@@ -135,9 +135,34 @@
     enable = true;
     xwayland.enable = true;
     #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
   };
   programs.thunar.enable = true;
 
+  programs.waybar = {
+    enable = true;
+  };
+
+  security.polkit.enable = true;
+  # Policy Kit Agent will allow us to raise privileges for certain operations.
+  systemd = {
+    user.services.polkit-gnome-authentication-agent-1 = {
+      description = "polkit-gnome-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+          Type = "simple";
+          ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+          Restart = "on-failure";
+          RestartSec = 1;
+          TimeoutStopSec = 10;
+        };
+    };
+  };
+
+
+  services.blueman.enable = true;
   #services.xserver = {
   #      enable = true;
   #      windowManager.i3.enable = true;
@@ -234,6 +259,9 @@
     tlp
     lazygit
     dunst
+    psmisc
+    blueman
+    bluez
   ];
 
 
