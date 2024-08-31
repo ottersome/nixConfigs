@@ -15,6 +15,7 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
     # ./zsh.nix
+    ../modules/nvim.nix
   ];
 
   # nixpkgs = {
@@ -56,18 +57,12 @@
       hyprpaper
       # obsidian
 
-      # For Neovim
-      gcc
-      nodejs
-      gnupg
+      manix
+
     ];
-    sessionVariables = {
-      EDITOR = "nvim";
-    };
   };
 
   # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
   # home.packages = with pkgs; [ steam ];
 
   # Enable home-manager and git
@@ -94,10 +89,6 @@
   home.file."/home/ottersome/.config/waybar/"= {
     source = ./ottersome-home-configs/waybar;
     recursive = false;
-  };
-  home.file.".config/nvim" = {
-    source = ./ottersome-home-configs/nvim;
-    recursive = true;
   };
 
   # Tmux Stuff

@@ -162,6 +162,8 @@
   };
 
 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = true;
   #services.xserver = {
   #      enable = true;
@@ -244,7 +246,6 @@
   };
   environment.systemPackages = with pkgs; [
     git
-    neovim
     tmux
     rsync
     btop
@@ -252,6 +253,7 @@
     brightnessctl
     #pactl
     #wpctl
+    wget
     playerctl
     #linux-g14 
     asusctl
