@@ -55,8 +55,11 @@
       swww
       hyprpaper
       # obsidian
+
       # For Neovim
       gcc
+      nodejs
+      gnupg
     ];
     sessionVariables = {
       EDITOR = "nvim";
@@ -79,6 +82,7 @@
   #wayland.windowManager.hyprland = {
   #  enable = true;
   #};
+  # UI Configs
   home.file."/home/ottersome/.config/hypr/"= {
     source = ./ottersome-home-configs/hypr;
     recursive = false;
@@ -96,6 +100,7 @@
     recursive = true;
   };
 
+  # Tmux Stuff
   home.file.".config/tmux/tmux.conf" = {
     source = ./ottersome-home-configs/tmux/tmux.conf;
     recursive = false;
@@ -111,6 +116,12 @@
         echo 'REMEMBER: YOU HAVE TO Press <C-I>' to install tpm plugins.
     fi
   '';
+
+  # Kitty Stuff
+  home.file.".config/kitty" = {
+    source = ./ottersome-home-configs/kitty;
+    recursive = true;
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
