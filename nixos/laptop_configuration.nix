@@ -42,6 +42,16 @@
   #  };
   #};
 
+  # So that we cant some linking happening
+
+
+
+  programs.nix-ld.enable = true;
+  # For linking
+  programs.zsh = {
+    enable = true;
+  };
+
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
@@ -264,6 +274,7 @@
     psmisc
     blueman
     bluez
+
   ];
 
 

@@ -76,7 +76,8 @@ in {
     EDITOR = "nvim";
   };
 
-  programs.neovim = {
+
+  programs.neovim  = {
     enable = true;
     # package = pkgs.neovim;
 

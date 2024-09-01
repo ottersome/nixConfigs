@@ -6,7 +6,10 @@
   config,
   pkgs,
   ...
-}: {
+}: 
+let 
+  myNvim = import ../modules/mynvim.nix {inherit pkgs;};
+in {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -15,7 +18,7 @@
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
     # ./zsh.nix
-    ../modules/nvim.nix
+    # ../modules/nvim.nix
   ];
 
   # nixpkgs = {
@@ -39,12 +42,16 @@
   #     allowUnfreePredicate = _: true;
   #   };
   # };
+  programs.zsh.initExtra = ''
+      export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+    '';
 
   home = {
     username = "ottersome";
     homeDirectory = "/home/ottersome";
     # Simply stated packages
     packages = with pkgs; [
+      neovim
       lazygit
       kitty
       wofi
@@ -58,7 +65,6 @@
       # obsidian
 
       manix
-
     ];
   };
 
@@ -72,7 +78,6 @@
     userName = "ottersome";
     userEmail = "admin@huginns.io";
   };
-  programs.zsh.enable = true;
 
   #wayland.windowManager.hyprland = {
   #  enable = true;
@@ -86,10 +91,10 @@
     source = ./ottersome-home-configs/waypaper;
     recursive = false;
   };
-  home.file."/home/ottersome/.config/waybar/"= {
-    source = ./ottersome-home-configs/waybar;
-    recursive = false;
-  };
+  #home.file."/home/ottersome/.config/waybar/"= {
+  #  source = ./ottersome-home-configs/waybar;
+  #  recursive = false;
+  #};
 
   # Tmux Stuff
   home.file.".config/tmux/tmux.conf" = {
@@ -107,6 +112,11 @@
         echo 'REMEMBER: YOU HAVE TO Press <C-I>' to install tpm plugins.
     fi
   '';
+
+  xdg.configFile."nvim" = {
+    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/nvim;
+  };
 
   # Kitty Stuff
   home.file.".config/kitty" = {
