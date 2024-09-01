@@ -5,6 +5,7 @@
   lib,
   config,
   pkgs,
+  unstablePkgs,
   ...
 }: 
 let 
@@ -51,7 +52,7 @@ in {
     homeDirectory = "/home/ottersome";
     # Simply stated packages
     packages = with pkgs; [
-      neovim
+      unstablePkgs.neovim
       lazygit
       kitty
       wofi

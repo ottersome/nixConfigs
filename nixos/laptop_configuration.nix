@@ -47,6 +47,12 @@
 
 
   programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    nodejs
+    # ...
+  ];
+
   # For linking
   programs.zsh = {
     enable = true;

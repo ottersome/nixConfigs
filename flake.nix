@@ -95,7 +95,7 @@
       # FIXME replace with your username@hostname
       "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs;};
+        extraSpecialArgs = {inherit inputs outputs unstablePkgs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];
       };
