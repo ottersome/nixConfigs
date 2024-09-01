@@ -52,7 +52,6 @@ in {
     homeDirectory = "/home/ottersome";
     # Simply stated packages
     packages = with pkgs; [
-      unstablePkgs.neovim
       lazygit
       kitty
       wofi
@@ -66,6 +65,13 @@ in {
       # obsidian
 
       manix
+      # Neovim: Not very comfortable with this , but it works
+      # Ideally we create an environment for neovim with its own packages
+      unstablePkgs.python3
+      unstablePkgs.gnupg
+      unstablePkgs.gcc
+      unstablePkgs.nodejs
+      unstablePkgs.neovim
     ];
   };
 
