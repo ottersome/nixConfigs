@@ -85,7 +85,6 @@
         specialArgs = {inherit inputs unstablePkgs passing_down;};
         # > Our main nixos configuration file <
         modules = [
-            # ./modules/mynvim.nix
             ./modules/users/personal.nix
             ./nixos/laptop_configuration.nix
           ];

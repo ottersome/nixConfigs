@@ -19,7 +19,7 @@ in {
     # You can also split up your configuration and import pieces of it here:
     # ./nvim.nix
     # ./zsh.nix
-    # ../modules/nvim.nix
+    ../modules/nvim.nix
   ];
 
   # nixpkgs = {
@@ -43,9 +43,9 @@ in {
   #     allowUnfreePredicate = _: true;
   #   };
   # };
-  programs.zsh.initExtra = ''
-      export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
-    '';
+  # programs.zsh.initExtra = ''
+  #     export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+  #   '';
 
   home = {
     username = "ottersome";
@@ -67,11 +67,11 @@ in {
       manix
       # Neovim: Not very comfortable with this , but it works
       # Ideally we create an environment for neovim with its own packages
-      unstablePkgs.python3
-      unstablePkgs.gnupg
-      unstablePkgs.gcc
-      unstablePkgs.nodejs
-      unstablePkgs.neovim
+      # unstablePkgs.python3
+      # unstablePkgs.gnupg
+      # unstablePkgs.gcc
+      # unstablePkgs.nodejs
+      # unstablePkgs.neovim
     ];
   };
 

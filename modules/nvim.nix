@@ -1,9 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, unstablePkgs, ... }:
 # Courtery of: https://geanmar.com/posts/how-to-setup-nvim-on-nixos/
 with lib;
 let
-  build-dependent-pkgs = with pkgs;
-    [
+  build-dependent-pkgs = with pkgs; [
       acl
       attr
       bzip2
@@ -79,7 +78,7 @@ in {
 
   programs.neovim  = {
     enable = true;
-    # package = pkgs.neovim;
+    # package = unstablePkgs.neovim;
 
     withNodeJs = true;
     withPython3 = true;
@@ -101,6 +100,6 @@ in {
         nil # For Nix Dev
       ];
 
-    extraLuaPackages = ls: with ls; [ luarocks ];
+    # extraLuaPackages = ls: with ls; [ luarocks ];
   };
 }
