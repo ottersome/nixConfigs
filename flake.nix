@@ -13,12 +13,16 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05"; # 24.05
     # home-manager.url = "github:nix-community/home-manager/release-23.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # pypoetry 
+    poetryPkgs.url = "github:nix-community/poetry2nix";
   };
 
   outputs = {
     self,
     nixpkgs,
     nixpkgs-unstable,
+    poetryPkgs,
     home-manager,
     ...
   } @ inputs: 
@@ -33,6 +37,10 @@
       config.allowUnfree = true;
     };
     inherit (nixpkgs) lib; #TOREM:
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree =true;
+    };
   in {
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -81,8 +89,9 @@
         pkgs = import nixpkgs {
            inherit system;
            config.allowUnfree = true;
+           overlays = [(import ./overlays/zsh.nix)];
          };
-        specialArgs = {inherit inputs unstablePkgs passing_down;};
+        specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
         # > Our main nixos configuration file <
         modules = [
             ./modules/users/personal.nix
@@ -94,7 +103,7 @@
       # FIXME replace with your username@hostname
       "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
-        extraSpecialArgs = {inherit inputs outputs unstablePkgs;};
+        extraSpecialArgs = {inherit inputs outputs pkgs unstablePkgs poetryPkgs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];
       };
