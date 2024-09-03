@@ -1,0 +1,6 @@
+# ZSH_THEME="miloshadzic"
+ZSH_THEME="robbyrussell"
+# ZSH_THEME="agnoster"
+plugins=(zsh-completions zsh-autosuggestions ssh-agent poetry fzf-tab git)
+# source $ZSH/oh-my-zsh.sh # UNCOMMENT: If not using nix
+# autoload -U compinit && compinit
