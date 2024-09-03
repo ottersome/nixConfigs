@@ -247,6 +247,7 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  users.defaultUserShell = pkgs.zsh;
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.

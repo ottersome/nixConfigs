@@ -58,15 +58,7 @@ PATH=$PATH:~/.cargo/bin
 #eval "$(pyenv init -)"
 
 alias vim="nvim"
-alias open="xdg-open"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/ottersome/tmp/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ottersome/tmp/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/ottersome/tmp/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ottersome/tmp/google-cloud-sdk/completion.zsh.inc'; fi
-
-if [ "$TMUX" = "" ]; then tmux; fi
 
 # ssh agent utility
 # if ! pgrep -u "$USER" ssh-agent > /dev/null; then
@@ -112,12 +104,9 @@ bindkey '^F' fex
 # export OPENAI_API_KEY="$(gpg --decrypt -q ~/.config/openai/secret.key.gpg)"
 alias gpt="sgpt --model gpt-4o"
 alias wttr="curl wttr.in/hsinchu"
-export STOW_DIR="~/dotfiles/"
-
 
 alias l="eza -lh --group-directories-first"
 alias lt="eza -T -L 2 "
 
-export PATH=$PATH:$HOME/go/bin
-# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-#
+
+if [ "$TMUX" = "" ]; then tmux; fi

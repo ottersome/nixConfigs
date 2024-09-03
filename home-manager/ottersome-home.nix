@@ -27,18 +27,41 @@ in
     ../modules/nvim.nix
   ];
 
-  programs.zsh = {
-    enable = true;
-    initExtra = ''
+  programs.zsh = let 
+    extraConfigBeforeCompInit = fileContents ./ottersome-home-configs/zsh/.zshrc_beforeCompInit + ''
       export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
     '';
-    enableCompletion = true;
+    extraConfigAfterCompInit = fileContents ./ottersome-home-configs/zsh/.zshrc_afterCompInit;
+    in {
+    enable = true;
+    # enableCompletion = true;
+    enableCompletion = true; # for zsh-completions
     autosuggestion.enable = true;
     oh-my-zsh = {
       enable = true;
+      plugins = [
+        # "zsh-syntax-highlighting"
+        # "zsh-completions" # Comes automatic with nixos it seems
+        # "zsh-autosuggestions"
+        "ssh-agent"
+        "poetry"
+        "git"
+
+        # {
+        #   name="fzf-tab";
+        #   src=pkgs.fetchFromGithub {
+        #     owner = "Aloxaf";
+        #     repo = "fzf-tab";
+        #   };
+        # }
+        # UNCOMMENT: If not using nix
+
+
+      ];
     };
     # Pull info from ./ottersome-home.nix/zsh/.zshrc
-    extraConfig = fileContents ./ottersome-home-configs/zsh/.zshrc;
+    initExtraBeforeCompInit = extraConfigBeforeCompInit;
+    initExtra = extraConfigAfterCompInit;
   };
 
 
@@ -66,6 +89,8 @@ in
       fzf
       zoxide
       gnupg
+      eza
+      zsh-autocomplete
 
       # UI
       feh
