@@ -89,7 +89,7 @@
         pkgs = import nixpkgs {
            inherit system;
            config.allowUnfree = true;
-           overlays = [(import ./overlays/zsh.nix)];
+           # overlays = [(import ./overlays/zsh.nix)];
          };
         specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
         # > Our main nixos configuration file <

@@ -6,11 +6,16 @@
   config,
   pkgs,
   unstablePkgs,
+  poetryPkgs,
   ...
 }: 
-let 
-  myNvim = import ../modules/mynvim.nix {inherit pkgs;};
-in {
+let
+  inherit (builtins) concatStringsSep;
+
+  inherit (lib) fileContents;
+
+in
+ {
   # You can import other home-manager modules here
   imports = [
     # If you want to use home-manager modules from other flakes (such as nix-colors):
@@ -22,38 +27,27 @@ in {
     ../modules/nvim.nix
   ];
 
-  # nixpkgs = {
-  #   # You can add overlays here
-  #   overlays = [
-  #     # If you want to use overlays exported from other flakes:
-  #     # neovim-nightly-overlay.overlays.racc
-  #
-  #     # Or define it inline, for example:
-  #     # (final: prev: {
-  #     #   hi = final.hello.overrideAttrs (oldAttrs: {
-  #     #     patches = [ ./change-hello-to-hi.patch ];
-  #     #   });
-  #     # })
-  #   ];
-  #   # Configure your nixpkgs instance
-  #   config = {
-  #     # Disable if you don't want unfree packages
-  #     allowUnfree = true;
-  #     # Workaround for https://github.com/nix-community/home-manager/issues/2942
-  #     allowUnfreePredicate = _: true;
-  #   };
-  # };
-  # programs.zsh.initExtra = ''
-  #     export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
-  #   '';
+  programs.zsh = {
+    enable = true;
+    initExtra = ''
+      export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
+    '';
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    oh-my-zsh = {
+      enable = true;
+    };
+    # Pull info from ./ottersome-home.nix/zsh/.zshrc
+    extraConfig = fileContents ./ottersome-home-configs/zsh/.zshrc;
+  };
+
 
   home = {
     username = "ottersome";
     homeDirectory = "/home/ottersome";
     # Simply stated packages
     packages = with pkgs; [
-      lazygit
-      kitty
+      # System
       wofi
       firefox
       pywal
@@ -61,10 +55,33 @@ in {
       bluetuith
       upower
       swww
+      eww
       hyprpaper
-      # obsidian
-
+      # Command LIne Utilities
+      yazi
+      lazygit
+      kitty
       manix
+      ### For ZSH
+      fzf
+      zoxide
+      gnupg
+
+      # UI
+      feh
+      dolphin
+      obsidian
+      spotify
+      slack
+      sioyek
+      tigervnc
+      telegram-desktop
+      # For thunar thumbnailing
+      xfce.tumbler 
+      ffmpegthumbnailer
+
+      # gcloud
+
       # Neovim: Not very comfortable with this , but it works
       # Ideally we create an environment for neovim with its own packages
       # unstablePkgs.python3
@@ -74,6 +91,7 @@ in {
       # unstablePkgs.neovim
     ];
   };
+
 
   # Add stuff for your user as you see fit:
   # home.packages = with pkgs; [ steam ];
@@ -85,6 +103,7 @@ in {
     userName = "ottersome";
     userEmail = "admin@huginns.io";
   };
+
 
   #wayland.windowManager.hyprland = {
   #  enable = true;
@@ -108,6 +127,10 @@ in {
     source = ./ottersome-home-configs/tmux/tmux.conf;
     recursive = false;
   };
+  # home.file.".config/hyprpaper" = {
+  #   source = ./ottersome-home-configs/hyp;
+  #   recursive = false;
+  # };
 
   home.activation.installTPM = lib.hm.dag.entryAfter ["writeBoundary" "installPackages" "git"] ''
     export PATH="${lib.makeBinPath (with pkgs; [ git ])}:$PATH"
@@ -123,6 +146,14 @@ in {
   xdg.configFile."nvim" = {
     # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
     source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/nvim;
+  };
+  xdg.configFile."waybar" = {
+    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/waybar;
+  };
+  xdg.configFile."eww" = {
+    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/eww;
   };
 
   # Kitty Stuff
