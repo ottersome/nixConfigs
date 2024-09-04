@@ -50,6 +50,7 @@
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
     nodejs
+    gcc
     # ...
   ];
 
@@ -281,6 +282,7 @@
     psmisc
     blueman
     bluez
+    neofetch
 
   ];
 

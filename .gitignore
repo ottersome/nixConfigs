@@ -3,3 +3,4 @@ result
 ./home-manager/ottersome-home-configs/*undo
 home-manager/ottersome-home-configs/nvim/backup
 home-manager/ottersome-home-configs/nvim/undo
+~/.cache/nvim

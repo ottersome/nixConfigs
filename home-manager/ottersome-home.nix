@@ -85,6 +85,7 @@ in
       lazygit
       kitty
       manix
+      shell-gpt
       ### For ZSH
       fzf
       zoxide

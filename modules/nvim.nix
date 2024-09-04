@@ -18,7 +18,11 @@ let
       zlib
       zstd
       glib
+      gcc
+      glibc
       libcxx
+      python3
+      poetry
     ];
 
   makePkgConfigPath = x: makeSearchPathOutput "dev" "lib/pkgconfig" x;
@@ -77,8 +81,8 @@ in {
 
 
   programs.neovim  = {
-    enable = true;
     # package = unstablePkgs.neovim;
+    enable = true;
 
     withNodeJs = true;
     withPython3 = true;
@@ -94,9 +98,11 @@ in {
         gcc
         gnumake
         ninja
+        ruff-lsp
         pkg-config
         yarn
         gnupg
+        unzip
         nil # For Nix Dev
       ];
 
