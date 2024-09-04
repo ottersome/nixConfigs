@@ -54,6 +54,11 @@
     # ...
   ];
 
+  # Apparently cannot use in home-manager
+  fonts.packages = with pkgs; [
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" ]; })
+  ];
+
   # For linking
   programs.zsh = {
     enable = true;
@@ -284,6 +289,8 @@
     bluez
     neofetch
 
+    #Fonts
+    jetbrains-mono
   ];
 
 
