@@ -36,11 +36,11 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
 -- Set persistent undo
 vim.opt.undofile = true
-vim.opt.undodir = vim.fn.stdpath("config") .. "/undo"
+vim.opt.undodir = "~/.cache/nvim/undo"
 
 -- Set Backups
 vim.opt.backup = true
-vim.opt.backupdir = vim.fn.stdpath("config") .. "/backup"
+vim.opt.backupdir = "~/.cache/nvim/backup"
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
