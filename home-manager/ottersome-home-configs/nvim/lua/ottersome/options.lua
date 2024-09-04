@@ -34,13 +34,15 @@ opt.termguicolors = true
 opt.background = "dark" -- colorschemes that can be light or dark will be made dark
 opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 
+local home_dir = vim.fn.expand("~")
+
 -- Set persistent undo
 vim.opt.undofile = true
-vim.opt.undodir = "~/.cache/nvim/undo"
+vim.opt.undodir = home_dir .. "/.cache/nvim/undo"
 
 -- Set Backups
 vim.opt.backup = true
-vim.opt.backupdir = "~/.cache/nvim/backup"
+vim.opt.backupdir = home_dir .. "/.cache/nvim/backup"
 
 -- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
