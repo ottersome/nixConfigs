@@ -1,0 +1,23 @@
+[user]
+    name = Luis Garcia
+    email = luisgarcia26284@gmail.com
+
+[core]
+    editor = nvim
+    autocrlf = input
+
+[color]
+    ui = auto
+
+[alias]
+    st = status
+    co = checkout
+    ci = commit
+    br = branch
+    pf = push --force-with-lease
+
+[pull]
+  rebase = true
+
+[push]
+    default = simple

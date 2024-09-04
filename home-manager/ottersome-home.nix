@@ -125,8 +125,8 @@ in
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
-    userName = "ottersome";
-    userEmail = "admin@huginns.io";
+    # Just leave it all here 
+    extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
   };
 
 
