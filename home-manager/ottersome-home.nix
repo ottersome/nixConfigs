@@ -89,7 +89,7 @@ in
       ### For ZSH
       fzf
       zoxide
-      gnupg
+      pinentry
       eza
       zsh-autocomplete
 

@@ -267,6 +267,16 @@
       PasswordAuthentication = false;
     };
   };
+
+  # For GPG Keys:
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+   enable = true;
+    #pinentryFlavor = "curses";
+   enableSSHSupport = true;
+  };
+
+  # services.gpg-agent.enable = true;
   environment.systemPackages = with pkgs; [
     git
     tmux
