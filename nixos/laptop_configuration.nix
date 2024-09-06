@@ -65,6 +65,11 @@
     enable = true;
   };
 
+  # Virtualbox
+   virtualisation.virtualbox.host.enable = true;
+   users.extraGroups.vboxusers.members = [ "ottersome" ];
+   virtualisation.virtualbox.host.enableExtensionPack = true;
+
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
