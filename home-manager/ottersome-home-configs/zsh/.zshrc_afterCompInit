@@ -101,7 +101,7 @@ zle -N fex
 zle -N sourcezshrc
 bindkey '^R' sourcezshrc
 bindkey '^F' fex
-export OPENAI_API_KEY="$(gpg --decrypt -q ~/.config/openai/secret.key.gpg)"
+# export OPENAI_API_KEY="$(gpg --decrypt -q ~/.config/openai/secret.key.gpg)"
 alias gpt="sgpt --model gpt-4o"
 alias wttr="curl wttr.in/hsinchu"
 

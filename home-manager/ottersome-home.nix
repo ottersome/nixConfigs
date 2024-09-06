@@ -86,6 +86,7 @@ in
       kitty
       manix
       shell-gpt
+      jq
       ### For ZSH
       fzf
       zoxide
@@ -98,7 +99,9 @@ in
       dolphin
       obsidian
       spotify
+      discord
       slack
+      vlc
       sioyek
       tigervnc
       telegram-desktop
@@ -107,6 +110,8 @@ in
       ffmpegthumbnailer
 
       # gcloud
+      google-cloud-sdk
+      redshift
 
       # Neovim: Not very comfortable with this , but it works
       # Ideally we create an environment for neovim with its own packages

@@ -135,7 +135,8 @@
 
   services.asusd = {
   	enable = true;
-	enableUserService = true;
+    # enableUserService = true;
+    package= unstablePkgs.asusctl;
   };
 
   services.tlp = {
@@ -282,8 +283,10 @@
    enableSSHSupport = true;
   };
 
-  # services.gpg-agent.enable = true;
+  services.supergfxd.enable = true;
+
   environment.systemPackages = with pkgs; [
+    usbutils
     git
     tmux
     rsync
@@ -295,7 +298,6 @@
     wget
     playerctl
     #linux-g14 
-    asusctl
     supergfxctl
     tlp
     lazygit
@@ -304,6 +306,8 @@
     blueman
     bluez
     neofetch
+    pavucontrol
+    qalculate-gtk
 
     #Fonts
     jetbrains-mono
