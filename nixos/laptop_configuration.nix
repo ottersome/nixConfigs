@@ -314,6 +314,9 @@
     noto-fonts-cjk-serif
   ];
 
+  # For Docker
+  virtualisation.docker.enable = true;
+  users.users.ottersome.extraGroups = [ "docker" ];
 
 
   #services.tailscale = {
