@@ -57,6 +57,7 @@
   # Apparently cannot use in home-manager
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" ]; })
+    noto-fonts-cjk-serif
   ];
 
   # For linking
@@ -301,6 +302,7 @@
 
     #Fonts
     jetbrains-mono
+    noto-fonts-cjk-serif
   ];
 
 
