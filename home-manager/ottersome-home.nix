@@ -81,6 +81,7 @@ in
       eww
       hyprpaper
       # Command LIne Utilities
+      bat
       yazi
       lazygit
       kitty
@@ -104,6 +105,7 @@ in
       vlc
       sioyek
       tigervnc
+      hyprshot
       telegram-desktop
       # For thunar thumbnailing
       xfce.tumbler 

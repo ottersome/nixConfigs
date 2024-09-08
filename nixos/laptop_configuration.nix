@@ -92,8 +92,82 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_10.override {
+    argsOverride = rec {
+      src = pkgs.fetchurl {
+            url = "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-${version}.tar.xz";
+            sha256 = "e0d50d5b74f8599375660e79f187af7493864dba5ff6671b14983376a070b3d1";
+      };
+      version = "6.10.6";
+      modDirVersion = "6.10.6";
+      };
+  });
+
   boot.kernelParams = ["module_blacklist=nouveau"];
+
+  boot.kernelPatches = let 
+      g14_patches = fetchGit {
+        url = "https://gitlab.com/dragonn/linux-g14";
+        ref = "6.10";
+        rev = "2318a770f912f115745b74e65fa7f504e5f593d1";
+      };
+      # Specifically for the g14 patches:
+       graysky_2_path = fetchGit {
+        url = "https://github.com/graysky2/kernel_compiler_patch";
+        rev = "2c3e729bc302e8d2f825df359aa4a33d367f7f48";
+       };
+      cachyos_kernelPatches = fetchGit {
+        url = "https://github.com/cachyos/kernel-patches";
+        rev = "ccfdcab127bdde5d60ceafea075f55a12e4f4fdb";
+      };
+    in
+    map (patch: { inherit patch; }) [
+      #"sys-kernel_arch-sources-g14_files-0004-more-uarches-for-kernel-6.8-rc4+.patch"::"https://raw.githubusercontent.com/graysky2/kernel_compiler_patch/master/more-uarches-for-kernel-6.8-rc4%2B.patch"
+      # CHECK: maybe we have to replace 4%2B for +
+      # "${graysky_2_path}/more-uarches-for-kernel-6.8-rc4+.patch" 6.10
+
+      "${g14_patches}/0001-acpi-proc-idle-skip-dummy-wait.patch"
+
+      "${g14_patches}/0003-platform-x86-asus-wmi-add-macros-and-expose-min-max-.patch"
+      # "${g14_patches}/0042-v4-0-1-platform-x86-asus-wmi-add-support-for-vivobook-fan-profiles.patch"
+
+      "${g14_patches}/0001-platform-x86-asus-wmi-add-debug-print-in-more-key-pl.patch"
+      "${g14_patches}/0002-platform-x86-asus-wmi-don-t-fail-if-platform_profile.patch"
+      "${g14_patches}/0003-asus-bios-refactor-existing-tunings-in-to-asus-bios-.patch"
+      "${g14_patches}/0004-asus-bios-add-panel-hd-control.patch"
+      "${g14_patches}/0005-asus-bios-add-dgpu-tgp-control.patch"
+      "${g14_patches}/0006-asus-bios-add-apu-mem.patch"
+      "${g14_patches}/0007-asus-bios-add-core-count-control.patch"
+
+      "${g14_patches}/v2-0001-hid-asus-use-hid-for-brightness-control-on-keyboa.patch"
+
+      "${g14_patches}/0027-mt76_-mt7921_-Disable-powersave-features-by-default.patch"
+
+      "${g14_patches}/0032-Bluetooth-btusb-Add-a-new-PID-VID-0489-e0f6-for-MT7922.patch"
+      "${g14_patches}/0035-Add_quirk_for_polling_the_KBD_port.patch"
+
+      "${g14_patches}/0001-ACPI-resource-Skip-IRQ-override-on-ASUS-TUF-Gaming-A.patch"
+      "${g14_patches}/0002-ACPI-resource-Skip-IRQ-override-on-ASUS-TUF-Gaming-A.patch"
+
+      "${g14_patches}/0038-mediatek-pci-reset.patch"
+      "${g14_patches}/0040-workaround_hardware_decoding_amdgpu.patch"
+
+      "${g14_patches}/amd-tablet-sfh.patch"
+
+
+      "${cachyos_kernelPatches}/6.10/sched/0001-sched-ext.patch"
+
+
+      "${g14_patches}/sys-kernel_arch-sources-g14_files-0047-asus-nb-wmi-Add-tablet_mode_sw-lid-flip.patch"
+      "${g14_patches}/sys-kernel_arch-sources-g14_files-0048-asus-nb-wmi-fix-tablet_mode_sw_int.patch"
+
+      # ----- Old Stuff:
+
+      # "${g14_patches}/sys-kernel_arch-sources-g14_files-0004-more-uarches-for-kernel-6.8-rc4+.patch "
+      # "${g14_patches}/sys-kernel_arch-sources-g14_files-0005-lru-multi-generational.patch"
+
+  ];
 
   networking.hostName = "${passing_down.host_name}";
 
@@ -241,6 +315,15 @@
 #    # Optionally, you may need to select the appropriate driver version for your specific GPU.
 #    package = config.boot.kernelPackages.nvidiaPackages.stable;
 #  };
+  # hardware.nvidia = {
+  #   modesetting.enable = true;
+  #   powerManagement.finegrained = true;
+  #   open = false;
+  #   nvidiaSettings = true;
+  #   package = config.boot.kernelPackages.nvidiaPackages.stable;
+  #   # prime = {
+  #   # };
+  # };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -309,10 +392,16 @@
     pavucontrol
     qalculate-gtk
 
+    # pkgs.linuxPackages_6_10.asus-wmi-sensors
+    neovim
+
     #Fonts
     jetbrains-mono
     noto-fonts-cjk-serif
+
+    # For linux
   ];
+
 
   # For Docker
   virtualisation.docker.enable = true;
