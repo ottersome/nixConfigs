@@ -384,6 +384,9 @@
    enable = true;
     #pinentryFlavor = "curses";
    enableSSHSupport = true;
+   settings={
+      default-cache-ttl = 3600;
+    };
   };
 
   services.supergfxd.enable = true;
@@ -441,4 +444,12 @@
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "unstable";
+
+  # For Printing
+  services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 }
