@@ -76,10 +76,12 @@ in
       pywal
       onedriver
       bluetuith
+      obs-studio
       upower
       swww
       eww
       hyprpaper
+      unstablePkgs.davinci-resolve
       # Command LIne Utilities
       bat
       yazi
@@ -87,7 +89,11 @@ in
       kitty
       manix
       shell-gpt
-      jq
+      lsof # For reading ports
+      jq # For reading json
+      yq # For reading yaml
+      ffmpeg
+
       ### For ZSH
       fzf
       zoxide
@@ -107,9 +113,11 @@ in
       tigervnc
       hyprshot
       telegram-desktop
+      # papirus-icon-theme # Not working so fark with gtk 
       # For thunar thumbnailing
       xfce.tumbler 
       ffmpegthumbnailer
+      lxappearance
 
       # gcloud
       google-cloud-sdk
@@ -123,6 +131,29 @@ in
       # unstablePkgs.nodejs
       # unstablePkgs.neovim
     ];
+  };
+
+  # For theming GTK 3.0
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Breeze-Dark";
+      package = pkgs.libsForQt5.breeze-gtk;
+    };
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.catppuccin-papirus-folders.override {
+        flavor = "mocha";
+        accent = "lavender";
+      };
+    };
+    cursorTheme = {
+      name = "Catppuccin-Mocha-Light-Cursors";
+      package = pkgs.catppuccin-cursors.mochaLight;
+    };
+    gtk3 = {
+      extraConfig.gtk-application-prefer-dark-theme = true;
+    };
   };
 
 
