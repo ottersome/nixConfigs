@@ -104,7 +104,7 @@
       };
   });
 
-  boot.kernelParams = ["module_blacklist=nouveau"];
+  boot.kernelParams = ["module_blacklist=nouveau,amdgpu"];
 
   boot.kernelPatches = let 
       g14_patches = fetchGit {
@@ -213,38 +213,54 @@
     package= unstablePkgs.asusctl;
   };
 
-  services.tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+# Comment out to let gnome take care of it.
+ #  services.tlp = {
+ #      enable = true;
+ #      settings = {
+ #        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+ #        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+	#
+ #        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+ #        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+	#
+ #        CPU_MIN_PERF_ON_AC = 0;
+ #        CPU_MAX_PERF_ON_AC = 80;
+ #        CPU_MIN_PERF_ON_BAT = 0;
+ #        CPU_MAX_PERF_ON_BAT = 20;
+	#
+ #       #Optional helps save long term battery health
+ #       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+ #       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+	#
+ #      };
+	# };
 
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+  # services.displayManager.sddm = {
+  #   enable = true;
+  #   wayland.enable = true;
+  # };
+  # programs.hyprland = {
+  #   enable = true;
+  #   xwayland.enable = true;
+  #   #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  #   #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  # };
 
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 80;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
-      };
-	};
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-    #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-    #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  };
   programs.thunar.enable = true;
 
-  programs.waybar = {
-    enable = true;
-  };
+  # programs.waybar = {
+  #   enable = true;
+  # };
 
   security.polkit.enable = true;
   # Policy Kit Agent will allow us to raise privileges for certain operations.
@@ -281,86 +297,49 @@
   #  enable = true;
   #};
 
-  # Load nvidia driver for Xorg and Wayland
-#  services.xserver.videoDrivers = ["nvidia"];
-#
-#  hardware.nvidia = {
-#
-#    # Modesetting is required.
-#    modesetting.enable = true;
-#
-#    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-#    # Enable this if you have graphical corruption issues or application crashes after waking
-#    # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
-#    # of just the bare essentials.
-#    powerManagement.enable = false;
-#
-#    # Fine-grained power management. Turns off GPU when not in use.
-#    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-#    powerManagement.finegrained = false;
-#
-#    # Use the NVidia open source kernel module (not to be confused with the
-#    # independent third-party "nouveau" open source driver).
-#    # Support is limited to the Turing and later architectures. Full list of 
-#    # supported GPUs is at: 
-#    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-#    # Only available from driver 515.43.04+
-#    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-#    open = false;
-#
-#    # Enable the Nvidia settings menu,
-#	# accessible via `nvidia-settings`.
-#    nvidiaSettings = true;
-#
-#    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-#    package = config.boot.kernelPackages.nvidiaPackages.stable;
-#  };
-  services.xserver.videoDrivers = ["amdgpu" "nvidia"];
+
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
+
     modesetting.enable = true;
     powerManagement.finegrained = false;
     open = true;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      version = "550.107.02";
-      sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
-      sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
-      openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
-      settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
-      persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
+      # version = "550.107.02";
+      # sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
+      # sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
+      # openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
+      # settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
+      # persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
+      version = "560.31.02";
+      sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
+      openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
+      settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
+
     };
 
-  # services.xserver.videoDrivers = ["amdgpu" "nvidia"];
-  # hardware.nvidia = {
-  #   modesetting.enable = true;
-  #   powerManagement.finegrained = false;
-  #   open = true;
-  #   nvidiaSettings = true;
-  #   # package = config.boot.kernelPackages.nvidiaPackages.beta;
-  #   package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-  #     version = "550.107.02";
-  #     sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
-  #     sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
-  #     openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
-  #     settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
-  #     persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
-  #   };
-  #
-  #   prime = {
-  #     offload = {
-  #       enable = true;
-  #       enableOffloadCmd = true;
-  #     };
-  #     nvidiaBusId = "PCI:100:0:0";
-  #     amdgpuBusId = "PCI:101:0:0";
-  #   };
-  # };
-  # hardware.opengl = {
-  #   enable = true;
-  #   package = pkgs.mesa.drivers;
-  # };
-
+    prime = {
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+      nvidiaBusId = "PCI:64:00:0";
+      amdgpuBusId = "PCI:65:00:0";
+    };
+  };
+  hardware.opengl = {
+    enable = true;
+    package = pkgs.mesa.drivers;
+    # enable32bit = true;
+    # package = unstablePkgs.mesa.drivers;
+    # driSupport = true;
+    # driSupport32Bit = true;
+  };
+  
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
@@ -405,7 +384,7 @@
     };
   };
 
-  services.supergfxd.enable = true;
+  # services.supergfxd.enable = true;
 
   environment.systemPackages = with pkgs; [
     usbutils
@@ -430,6 +409,10 @@
     neofetch
     pavucontrol
     qalculate-gtk
+    pciutils
+
+    # Management Stuff
+    lshw
 
     # pkgs.linuxPackages_6_10.asus-wmi-sensors
     neovim
@@ -457,9 +440,9 @@
   #environment.persistence = {
   #  "/persist".directories = ["/var/lib/tailscale"];
   #};
-
+#
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "unstable";
+  system.stateVersion = "24.05";
 
   # For Printing
   services.printing.enable = true;
