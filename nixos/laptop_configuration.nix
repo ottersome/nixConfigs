@@ -254,18 +254,21 @@
   # };
 
 
-  # services.displayManager.sddm.enable = true;
-  # services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   programs.waybar = {
     enable = true;
   };
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+    # systemd.enable = true;
     # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
-    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
+    portalPackage =  inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
   };
 
+  # For some Reason GNoem is not working for Nvidia + iGPU
   # services.xserver.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
@@ -354,6 +357,8 @@
   hardware.opengl = {
     enable = true;
     package = pkgs.mesa.drivers;
+    #TODO:
+    #package = unstablePkgs.mesa.drivers;
     # enable32bit = true;
     # package = unstablePkgs.mesa.drivers;
     driSupport = true;
@@ -434,6 +439,7 @@
     fuse2
     icu.dev
     appimage-run
+    polkit_gnome
 
     # Management Stuff
     lshw
