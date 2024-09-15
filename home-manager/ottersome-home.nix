@@ -118,6 +118,10 @@ in
       xfce.tumbler 
       ffmpegthumbnailer
       lxappearance
+      # appimageTools
+
+      # TUI
+      nvtopPackages.full
 
       # gcloud
       google-cloud-sdk

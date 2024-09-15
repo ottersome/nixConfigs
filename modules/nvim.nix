@@ -1,4 +1,4 @@
-{ config, lib, pkgs, unstablePkgs, ... }:
+{ config, lib, pkgs, unstablePkgs, inputs, ... }:
 # Courtery of: https://geanmar.com/posts/how-to-setup-nvim-on-nixos/
 with lib;
 let
@@ -21,7 +21,6 @@ let
       gcc
       glibc
       libcxx
-      python3
       poetry
     ];
 
@@ -81,7 +80,8 @@ in {
 
 
   programs.neovim  = {
-    # package = unstablePkgs.neovim;
+    # package = pkgs.neovim;
+    # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     enable = true;
 
     withNodeJs = true;

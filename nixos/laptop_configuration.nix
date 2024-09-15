@@ -89,6 +89,9 @@
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
+  # For NTFS Systems
+  boot.supportedFilesystems = [ "ntfs" ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -104,7 +107,7 @@
       };
   });
 
-  boot.kernelParams = ["module_blacklist=nouveau,amdgpu"];
+  boot.kernelParams = ["module_blacklist=nouveau"];
 
   boot.kernelPatches = let 
       g14_patches = fetchGit {
@@ -214,53 +217,68 @@
   };
 
 # Comment out to let gnome take care of it.
- #  services.tlp = {
- #      enable = true;
- #      settings = {
- #        CPU_SCALING_GOVERNOR_ON_AC = "performance";
- #        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-	#
- #        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
- #        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-	#
- #        CPU_MIN_PERF_ON_AC = 0;
- #        CPU_MAX_PERF_ON_AC = 80;
- #        CPU_MIN_PERF_ON_BAT = 0;
- #        CPU_MAX_PERF_ON_BAT = 20;
-	#
- #       #Optional helps save long term battery health
- #       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
- #       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-	#
- #      };
-	# };
+  services.tlp = {
+      enable = true;
+      settings = {
+        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-  # services.displayManager.sddm = {
+        CPU_ENERGY_PERF_POLICY_N_BAT = "power";
+        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+        CPU_MIN_PERF_ON_AC = 0;
+        CPU_MAX_PERF_ON_AC = 40;
+        CPU_MIN_PERF_ON_BAT = 0;
+        CPU_MAX_PERF_ON_BAT = 20;
+
+       #Optional helps save long term battery health
+       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+
+      };
+	};
+  services.power-profiles-daemon.enable = false;
+
+  # services.auto-cpufreq = {
   #   enable = true;
-  #   wayland.enable = true;
   # };
-  # programs.hyprland = {
-  #   enable = true;
-  #   xwayland.enable = true;
-  #   #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
-  #   #package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  # services.auto-cpufreq.settings = {
+  #   battery = {
+  #     governor = "powersave";
+  #     turbo = "never";
+  #   };
+  #   charger = {
+  #     governor = "performance";
+  #     turbo = "auto";
+  #   };
   # };
+
+
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+  programs.waybar = {
+    enable = true;
+  };
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
+    # package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+  };
 
   # services.xserver.enable = true;
   # services.xserver.displayManager.gdm.enable = true;
   # services.xserver.desktopManager.gnome.enable = true;
 
-  services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  ## Enable for  Plasma KDE 6
+  # services.xserver.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
 
   programs.thunar.enable = true;
 
-  # programs.waybar = {
-  #   enable = true;
-  # };
 
   security.polkit.enable = true;
   # Policy Kit Agent will allow us to raise privileges for certain operations.
@@ -298,37 +316,39 @@
   #};
 
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = ["amdgpu" "nvidia"];
   hardware.nvidia = {
 
     modesetting.enable = true;
     powerManagement.finegrained = false;
     open = true;
-    nvidiaSettings = false;
+    nvidiaSettings = true;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      # version = "550.107.02";
-      # sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
-      # sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
-      # openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
-      # settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
-      # persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
-      version = "560.31.02";
-      sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
-      sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
-      openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
-      settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
-      persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
+      version = "550.107.02";
+      sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
+      sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
+      openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
+      settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
+      persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
+      # version = "560.31.02";
+      # sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      # sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
+      # openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
+      # settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      # persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
 
     };
 
     prime = {
+      sync.enable = false;
       offload = {
         enable = true;
         enableOffloadCmd = true;
       };
-      nvidiaBusId = "PCI:64:00:0";
-      amdgpuBusId = "PCI:65:00:0";
+      # You must conver lshw ids from hex to decimal
+      nvidiaBusId = "PCI:100:00:0";
+      amdgpuBusId = "PCI:101:00:0";
     };
   };
   hardware.opengl = {
@@ -336,8 +356,8 @@
     package = pkgs.mesa.drivers;
     # enable32bit = true;
     # package = unstablePkgs.mesa.drivers;
-    # driSupport = true;
-    # driSupport32Bit = true;
+    driSupport = true;
+    driSupport32Bit = true;
   };
   
   # Enable CUPS to print documents.
@@ -400,7 +420,6 @@
     playerctl
     #linux-g14 
     supergfxctl
-    tlp
     lazygit
     dunst
     psmisc
@@ -410,6 +429,11 @@
     pavucontrol
     qalculate-gtk
     pciutils
+    getent
+    unstablePkgs.auto-cpufreq
+    fuse2
+    icu.dev
+    appimage-run
 
     # Management Stuff
     lshw

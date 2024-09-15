@@ -16,6 +16,9 @@
 
     # pypoetry 
     poetryPkgs.url = "github:nix-community/poetry2nix";
+
+    # Neovim Nightly
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   outputs = {
@@ -89,7 +92,7 @@
         pkgs = import nixpkgs {
            inherit system;
            config.allowUnfree = true;
-           # overlays = [(import ./overlays/zsh.nix)];
+           overlays = [(import ./overlays/neovim10.nix)];
          };
         specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
         # > Our main nixos configuration file <
