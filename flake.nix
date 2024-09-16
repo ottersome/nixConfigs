@@ -19,6 +19,9 @@
 
     # Neovim Nightly
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+
+    # My Notion 
+    notion-app.url = "path:/etc/nixos/pkgs/notion-app";
   };
 
   outputs = {
@@ -93,7 +96,7 @@
            inherit system;
            config.allowUnfree = true;
            overlays = [(import ./overlays/neovim10.nix)];
-         };
+         } ;
         specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
         # > Our main nixos configuration file <
         modules = [
