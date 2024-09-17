@@ -22,6 +22,9 @@
 
     # My Notion 
     notion-app.url = "path:/etc/nixos/pkgs/notion-app";
+
+    # Zen Browser
+    zen-browser.url = "github:MarceColl/zen-browser-flake";
   };
 
   outputs = {

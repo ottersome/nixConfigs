@@ -14,6 +14,9 @@ let
 
   inherit (lib) fileContents;
 
+  # Lets get the notion pkgs
+  # TODO: Make it more platform agnostic
+
 in
  {
   # You can import other home-manager modules here
@@ -119,6 +122,11 @@ in
       ffmpegthumbnailer
       lxappearance
       # appimageTools
+      
+      # Random Falkes
+      inputs.zen-browser.packages."${system}".default
+      inputs.notion-app.packages."${system}".notionAppElectron
+      # inputs.notion-app.packages."${system}".notionAppElectron
 
       # TUI
       nvtopPackages.full
