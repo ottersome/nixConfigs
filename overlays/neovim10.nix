@@ -1,7 +1,7 @@
-self: super: {
-  neovim = super.neovim.overrideAttrs (oldAttrs: rec {
+final: prev: {
+  neovim-unwrapped = prev.neovim-unwrapped.overrideAttrs (oldAttrs:  {
     version = "v0.10.1";
-    src = super.fetchFromGitHub {
+    src = prev.fetchFromGitHub {
       owner = "neovim";
       repo = "neovim";
       rev = "v0.10.1"; # Use the specific version tag

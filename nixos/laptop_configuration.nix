@@ -20,7 +20,7 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
-  ];
+];
 
   #nixpkgs = {
   #  # You can add overlays here
@@ -96,6 +96,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_10.override {
     argsOverride = rec {
       src = pkgs.fetchurl {
@@ -453,7 +454,6 @@
     lshw
 
     # pkgs.linuxPackages_6_10.asus-wmi-sensors
-    neovim
 
     #Fonts
     jetbrains-mono

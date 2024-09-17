@@ -22,8 +22,15 @@ let
       glibc
       libcxx
       poetry
-    ];
+  ];
 
+  overlayed = import <nixpkgs> {
+    system = "x86_64-linux";
+    config.allowUnfree = true;
+    overlays = [
+      (import ../overlays/neovim10.nix)
+    ];
+  };
   makePkgConfigPath = x: makeSearchPathOutput "dev" "lib/pkgconfig" x;
   makeIncludePath = x: makeSearchPathOutput "dev" "include" x;
 
@@ -80,8 +87,9 @@ in {
 
 
   programs.neovim  = {
-    # package = pkgs.neovim;
-    # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    package = overlayed.neovim-unwrapped;
+    # package = overlayed.neovim-unwrapped;
+	# package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     enable = true;
 
     withNodeJs = true;

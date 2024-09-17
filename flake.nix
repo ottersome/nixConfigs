@@ -17,9 +17,6 @@
     # pypoetry 
     poetryPkgs.url = "github:nix-community/poetry2nix";
 
-    # Neovim Nightly
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
-
     # My Notion 
     notion-app.url = "path:/etc/nixos/pkgs/notion-app";
 
@@ -111,7 +108,12 @@
     homeConfigurations = {
       # FIXME replace with your username@hostname
       "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
+        # pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = [(import ./overlays/neovim10.nix)];
+        };
         extraSpecialArgs = {inherit inputs outputs pkgs unstablePkgs poetryPkgs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];
