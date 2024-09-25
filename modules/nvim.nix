@@ -98,21 +98,26 @@ in {
 
     extraPackages = with pkgs;
       [
-        doq
-        sqlite
-        cargo
-        clang
-        cmake
-        gcc
-        gnumake
-        ninja
-        ruff-lsp
-        pkg-config
-        yarn
-        gnupg
-        unzip
-        nil # For Nix Dev
+      ruff-lsp
+      black
+      pyright
+      nil
       ];
+    #   [
+    #     doq
+    #     sqlite
+    #     cargo
+    #     clang
+    #     cmake
+    #     gcc
+    #     gnumake
+    #     ninja
+    #     pkg-config
+    #     yarn
+    #     gnupg
+    #     unzip
+    #     nil # For Nix Dev
+    #   ];
 
     # extraLuaPackages = ls: with ls; [ luarocks ];
   };
