@@ -12,7 +12,7 @@
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-24.05"; # 24.05
     # home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # pypoetry 
     poetryPkgs.url = "github:nix-community/poetry2nix";
@@ -22,6 +22,9 @@
 
     # Zen Browser
     zen-browser.url = "github:MarceColl/zen-browser-flake";
+    auto-cpufreq = {
+       url = "github:AdnanHodzic/auto-cpufreq";
+    };
   };
 
   outputs = {
@@ -46,6 +49,11 @@
     pkgs = import nixpkgs {
       inherit system;
       config.allowUnfree =true;
+        overlays = [
+          (import ./overlays/neovim10.nix)
+          (import ./overlays/rofi-wayland.nix)
+        ];
+      
     };
   in {
     # NixOS configuration entrypoint
@@ -53,10 +61,6 @@
     nixosConfigurations = {
       "berry" = nixpkgs.lib.nixosSystem rec{
         system = "aarch64-linux";
-        pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
         specialArgs = {inherit pkgs inputs passing_down;};
         # > Our main nixos configuration file <
         modules = [
@@ -79,10 +83,6 @@
       };
       "lab716a" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
-        pkgs = import nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
         specialArgs = {inherit pkgs inputs passing_down;};
         # > Our main nixos configuration file <
         modules = [
@@ -92,40 +92,29 @@
       };
       "mobile" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
-        pkgs = import nixpkgs {
-           inherit system;
-           config.allowUnfree = true;
-           overlays = [(import ./overlays/neovim10.nix)];
-         } ;
         specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
         # > Our main nixos configuration file <
         modules = [
             ./modules/users/personal.nix
             ./nixos/laptop_configuration.nix
+            # inputs.auto-cpufreq.nixosModules.default
           ];
       };
     };
     homeConfigurations = {
       # FIXME replace with your username@hostname
       "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
-        # pkgs = nixpkgs.legacyPackages.${system}; # Home-manager requires 'pkgs' instance
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-          overlays = [(import ./overlays/neovim10.nix)];
-        };
+          inherit pkgs;
         extraSpecialArgs = {inherit inputs outputs pkgs unstablePkgs poetryPkgs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];
       };
       "racc@lab716a" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/racc-home.nix];
       };
       "nura@lab716a" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         # > Our main home-manager configuration file <
         modules = [./home-manager/lab716a-home.nix.nix];

@@ -74,7 +74,9 @@ in
     # Simply stated packages
     packages = with pkgs; [
       # System
-      wofi
+      (rofi-wayland.override {
+        plugins = [ rofi-file-browser ];
+      })
       firefox
       pywal
       onedriver
@@ -88,6 +90,7 @@ in
       # Command LIne Utilities
       bat
       yazi
+      alsa-utils
       lazygit
       kitty
       manix
@@ -96,6 +99,10 @@ in
       jq # For reading json
       yq # For reading yaml
       ffmpeg
+      swappy
+      git-lfs
+      cliphist
+      tldr
 
       ### For ZSH
       fzf
@@ -109,12 +116,15 @@ in
       dolphin
       obsidian
       spotify
+      youtube-music
       discord
       slack
       vlc
+      mpv
       sioyek
       tigervnc
       hyprshot
+      flameshot
       telegram-desktop
       # papirus-icon-theme # Not working so fark with gtk 
       # For thunar thumbnailing
@@ -122,11 +132,14 @@ in
       ffmpegthumbnailer
       lxappearance
       # appimageTools
+      wdisplays
+      inkscape
       
       # Random Falkes
       inputs.zen-browser.packages."${system}".default
-      inputs.notion-app.packages."${system}".notionAppElectron
-      # inputs.notion-app.packages."${system}".notionAppElectron
+      # inputs.notion-app.packages."${system}".notionAppElectron # TODO: FINISH THIS
+
+      filezilla
 
       # TUI
       nvtopPackages.full
@@ -177,7 +190,7 @@ in
   programs.git = {
     enable = true;
     # Just leave it all here 
-    extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
+    # extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
   };
 
 
@@ -191,6 +204,10 @@ in
   };
   home.file."/home/ottersome/.config/waypaper/"= {
     source = ./ottersome-home-configs/waypaper;
+    recursive = false;
+  };
+  home.file."/home/ottersome/.config/git/.gitconfig_global" = {
+    source = ./ottersome-home-configs/git/.gitconfig_global;
     recursive = false;
   };
   #home.file."/home/ottersome/.config/waybar/"= {

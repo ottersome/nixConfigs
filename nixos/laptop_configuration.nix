@@ -218,6 +218,7 @@
   };
 
 # Comment out to let gnome take care of it.
+
   services.tlp = {
       enable = true;
       settings = {
@@ -240,16 +241,29 @@
 	};
   services.power-profiles-daemon.enable = false;
 
-  # services.auto-cpufreq = {
-  #   enable = true;
-  # };
-  # services.auto-cpufreq.settings = {
-  #   battery = {
-  #     governor = "powersave";
-  #     turbo = "never";
-  #   };
+  services.auto-cpufreq = {
+    enable = true;
+  };
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+
+  #  programs.auto-cpufreq.enable = true;
+  #   # optionally, you can configure your auto-cpufreq settings, if you have any
+  #   programs.auto-cpufreq.settings = {
   #   charger = {
   #     governor = "performance";
+  #     turbo = "auto";
+  #   };
+  #   battery = {
+  #     governor = "powersave";
   #     turbo = "auto";
   #   };
   # };
