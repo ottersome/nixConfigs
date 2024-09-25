@@ -82,6 +82,8 @@ in
       onedriver
       bluetuith
       obs-studio
+      wl-clipboard
+      xdg-utils
       upower
       swww
       eww
@@ -103,6 +105,7 @@ in
       git-lfs
       cliphist
       tldr
+      csvlens
 
       ### For ZSH
       fzf

@@ -59,5 +59,15 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 opt.scrolloff = 12
 
+-- For getting to see some special characters
+vim.opt.listchars = {
+    tab = '»·',
+    trail = '·',
+    extends = '>',
+    precedes = '<',
+    nbsp = '␣'
+}
+
+
 -- turn off swapfile
 --opt.swapfile = false
