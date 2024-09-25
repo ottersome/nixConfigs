@@ -269,8 +269,8 @@
   # };
 
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
   programs.waybar = {
     enable = true;
   };
@@ -328,46 +328,33 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = true;
-  #services.xserver = {
-  #      enable = true;
-  #      windowManager.i3.enable = true;
-  #};
-  #services.displayManager = {
-  #	defaultSession = "none+i3";
-  #};
-
-  # Enable OpenGL
-  #hardware.opengl = {
-  #  enable = true;
-  #};
-
 
   services.xserver.videoDrivers = ["amdgpu" "nvidia"];
   hardware.nvidia = {
 
     modesetting.enable = true;
-    powerManagement.finegrained = false;
+    # powerManagement.finegrained = true;
     open = true;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      version = "550.107.02";
-      sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
-      sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
-      openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
-      settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
-      persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
-      # version = "560.31.02";
-      # sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
-      # sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
-      # openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
-      # settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
-      # persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
+      # version = "550.107.02";
+      # sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
+      # sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
+      # openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
+      # settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
+      # persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
+      version = "560.31.02";
+      sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
+      openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
+      settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
 
     };
 
     prime = {
-      sync.enable = false;
+      # sync.enable = true;
       offload = {
         enable = true;
         enableOffloadCmd = true;
@@ -381,9 +368,7 @@
     enable = true;
     package = pkgs.mesa.drivers;
     #TODO:
-    #package = unstablePkgs.mesa.drivers;
     # enable32bit = true;
-    # package = unstablePkgs.mesa.drivers;
     driSupport = true;
     driSupport32Bit = true;
   };
