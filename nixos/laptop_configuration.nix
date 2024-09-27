@@ -269,6 +269,8 @@
   #   };
   # };
 
+  # For android mirroring:
+  programs.adb.enable=true;
 
   # services.displayManager.sddm.enable = true;
   # services.displayManager.sddm.wayland.enable = true;
@@ -465,7 +467,7 @@
 
   # For Docker
   virtualisation.docker.enable = true;
-  users.users.ottersome.extraGroups = [ "docker" ];
+  users.users.ottersome.extraGroups = [ "docker" "adbusers"];
 
 
   #services.tailscale = {

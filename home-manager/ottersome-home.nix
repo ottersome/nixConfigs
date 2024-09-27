@@ -106,6 +106,7 @@ in
       cliphist
       tldr
       csvlens
+      scrcpy # Controlling android remotely
 
       ### For ZSH
       fzf
