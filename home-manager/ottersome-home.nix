@@ -107,6 +107,7 @@ in
       tldr
       csvlens
       scrcpy # Controlling android remotely
+      ttgo # Oh yeah 
 
       ### For ZSH
       fzf

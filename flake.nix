@@ -25,6 +25,9 @@
     auto-cpufreq = {
        url = "github:AdnanHodzic/auto-cpufreq";
     };
+
+    # TTGO: 
+    ttgo.url = "github:ottersome/ttgo";
   };
 
   outputs = {
@@ -103,9 +106,17 @@
     };
     homeConfigurations = {
       # FIXME replace with your username@hostname
-      "ottersome@mobile" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-        extraSpecialArgs = {inherit inputs outputs pkgs unstablePkgs poetryPkgs;};
+      "ottersome@mobile" = let 
+            specialPkgs = pkgs // {
+              ttgo = inputs.ttgo.packages.${system}.ttgo;
+            };
+          in home-manager.lib.homeManagerConfiguration {
+          # Add the TTGO package to the pkgs list
+        pkgs =  specialPkgs;
+        extraSpecialArgs = {
+            pkgs = specialPkgs;
+            inherit inputs  outputs unstablePkgs poetryPkgs;
+          };
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];
       };
