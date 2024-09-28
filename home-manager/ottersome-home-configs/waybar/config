@@ -31,6 +31,11 @@
         // "format-alt": "{:%Y-%m-%d}"
 		"on-click": "gnome-calendar"
     },
+    "battery" : {
+      "interval" : 60,
+      "format" : "{capacity}% {icon} {power:.0f}w )",
+      "format-icons" : [" ", " ", " ", " ", " "]
+    },
     "pulseaudio": {
         "format": "{volume}% {icon} ",
         "format-bluetooth": "{volume}% {icon} {format_source}",
