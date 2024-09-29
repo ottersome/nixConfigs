@@ -27,7 +27,9 @@
     };
 
     # TTGO: 
-    ttgo.url = "github:ottersome/ttgo";
+    ttgo = {
+      url = "github:ottersome/ttgo?rev=825cd7fd5d79331e0d2f7f71cce2f34283a9dc3f";
+    };
   };
 
   outputs = {
