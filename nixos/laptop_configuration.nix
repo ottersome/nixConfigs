@@ -93,6 +93,11 @@
   # For NTFS Systems
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # For dGPU + iGPY management. Hopefully lower power consumption
+  # boot.extraModulePackages = [ pkgs.bbswitch ];
+  # services.bumblebee.enable = true;
+  # services.bumblebee.offload = false;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -242,29 +247,16 @@
 	};
   services.power-profiles-daemon.enable = false;
 
-  services.auto-cpufreq = {
-    enable = true;
-  };
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
-
-  #  programs.auto-cpufreq.enable = true;
-  #   # optionally, you can configure your auto-cpufreq settings, if you have any
-  #   programs.auto-cpufreq.settings = {
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
+  # services.auto-cpufreq = {
+  #   enable = true;
+  # };
+  # services.auto-cpufreq.settings = {
   #   battery = {
   #     governor = "powersave";
+  #     turbo = "never";
+  #   };
+  #   charger = {
+  #     governor = "performance";
   #     turbo = "auto";
   #   };
   # };
@@ -338,21 +330,21 @@
     modesetting.enable = true;
     # powerManagement.finegrained = true;
     open = true;
-    nvidiaSettings = false;
+    nvidiaSettings = true;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-      # version = "550.107.02";
-      # sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
-      # sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
-      # openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
-      # settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
-      # persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
-      version = "560.31.02";
-      sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
-      sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
-      openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
-      settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
-      persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
+      version = "550.107.02";
+      sha256_64bit = "sha256-+XwcpN8wYCjYjHrtYx+oBhtVxXxMI02FO1ddjM5sAWg=";
+      sha256_aarch64 = "sha256-mVEeFWHOFyhl3TGx1xy5EhnIS/nRMooQ3+LdyGe69TQ=";
+      openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
+      settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
+      persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
+      # version = "560.31.02";
+      # sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      # sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
+      # openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
+      # settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      # persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
 
     };
 
