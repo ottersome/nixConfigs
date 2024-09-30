@@ -77,10 +77,14 @@ in {
   #   source = ../home-manager/ottersome-home-configs/nvim;
   #   recursive = true;
   #};
-  xdg.configFile."nvim" = {
-    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
-    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/nvim;
-  };
+  # xdg.configFile."nvim" = {
+  #   # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+  #   source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/nvim;
+  # };
+  # home.activation.copyNvimConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  #   mkdir -p ${config.home.homeDirectory}/.config/nvim
+  #   cp -r /etc/nixos/home-manager/ottersome-home-configs/nvim/* ${config.home.homeDirectory}/.config/nvim/
+  # '';
   home.sessionVariables = {
     EDITOR = "nvim";
   };

@@ -23,29 +23,17 @@
     ../modules/CHINESE.nix
 ];
 
-  #nixpkgs = {
-  #  # You can add overlays here
-  #  overlays = [
-  #    # If you want to use overlays exported from other flakes:
-  #    # neovim-nightly-overlay.overlays.default
 
-  #    # Or define it inline, for example:
-  #    # (final: prev: {
-  #    #   hi = final.hello.overrideAttrs (oldAttrs: {
-  #    #     patches = [ ./change-hello-to-hi.patch ];
-  #    #   });
-  #    # })
-  #  ];
-  #  # Configure your nixpkgs instance
-  #  config = {
-  #    # Disable if you don't want unfree packages
-  #    allowUnfree = true;
-  #  };
-  #};
-
-  # So that we cant some linking happening
-
-
+  # For pre-built CUDA packages
+  nix.settings = {
+    substituters = [
+      "https://cuda-maintainers.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+    ];
+    experimental-features = "nix-command flakes";
+  };
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
@@ -70,25 +58,6 @@
    virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "ottersome" ];
    virtualisation.virtualbox.host.enableExtensionPack = true;
-
-  nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
-  in {
-    settings = {
-      # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
-      flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
-      nix-path = config.nix.nixPath;
-    };
-    # Opinionated: disable channels
-    channel.enable = false;
-
-    # Opinionated: make flake registry and nix path match flake inputs
-    registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
-    nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
-  };
 
   # For NTFS Systems
   boot.supportedFilesystems = [ "ntfs" ];
@@ -329,7 +298,7 @@
 
     modesetting.enable = true;
     # powerManagement.finegrained = true;
-    open = true;
+    open = false;
     nvidiaSettings = true;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
