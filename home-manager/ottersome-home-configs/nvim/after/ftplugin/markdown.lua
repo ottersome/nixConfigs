@@ -59,12 +59,14 @@ function replace_stopping_points()
 	vim.cmd("noh")
 end
 local function paste_image_from_clipboard()
-	-- Check if there is even an image in the clipboard
-	local clipboard_type = vim.fn.system("xclip -selection clipboard  -o -t TARGETS")
-	if not clipboard_type:find("image/png") then
-		print("No image in clipboard")
-		return
-	end
+	-- FIX: Check if there is even an image in the clipboard
+  -- I am removing it mosstly because of wayland. We can thing about how to work around it lataer
+	-- local clipboard_type = vim.fn.system("xclip -selection clipboard  -o -t TARGETS")
+	-- if not clipboard_type:find("image/png") then
+	-- 	print("No image in clipboard")
+	-- 	return
+	-- end
+  
 	-- Get the current file's directory
 	local current_file = vim.fn.expand("%:p:h")
 	-- Return the path to the 'assets' folder rooted at the same path as the current file

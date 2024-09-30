@@ -106,6 +106,7 @@ in {
       black
       pyright
       nil
+      imagemagick
       ];
     #   [
     #     doq
@@ -122,7 +123,7 @@ in {
     #     unzip
     #     nil # For Nix Dev
     #   ];
-
-    # extraLuaPackages = ls: with ls; [ luarocks ];
+    extraLuaPackages = ls: with ls; [ luarocks magick];
+    #NOTE:(1): Install the `magick` lua rock so we can use 3rd/image.nvim
   };
 }
