@@ -88,7 +88,6 @@ in
       swww
       eww
       hyprpaper
-      unstablePkgs.davinci-resolve
       # Command LIne Utilities
       bat
       yazi
@@ -108,6 +107,8 @@ in
       csvlens
       scrcpy # Controlling android remotely
       ttgo # Oh yeah 
+      gh
+      git-filter-repo
 
       ### For ZSH
       fzf
@@ -115,6 +116,7 @@ in
       pinentry
       eza
       zsh-autocomplete
+      kdenlive
 
       # UI
       feh
@@ -266,6 +268,8 @@ in
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
+
+  home.sessionPath = [ "/home/ottersome/scripts" ];
 
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "24.05"; # Did you read the comment?

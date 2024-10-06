@@ -62,6 +62,25 @@
   # For NTFS Systems
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # --- Start: For completely disabling nvidia ---
+  # boot.extraModprobeConfig = ''
+  #   blacklist nouveau
+  #   options nouveau modeset=0
+  # '';
+  # services.udev.extraRules = ''
+  #   # Remove NVIDIA USB xHCI Host Controller devices, if present
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+  #   # Remove NVIDIA USB Type-C UCSI devices, if present
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+  #   # Remove NVIDIA Audio devices, if present
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+  #   # Remove NVIDIA VGA/3D controller devices
+  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
+  # '';
+  # boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
+  
+  # --- end: For completely disabling nvidia ---
+
   # For dGPU + iGPY management. Hopefully lower power consumption
   # boot.extraModulePackages = [ pkgs.bbswitch ];
   # services.bumblebee.enable = true;
@@ -186,6 +205,32 @@
   # 
   #services.supergfxd.enable = true;
 
+   networking.firewall.allowedTCPPorts = [ 8384 22000 ];
+   networking.firewall.allowedUDPPorts = [ 22000 21027 ];
+  services.syncthing = {
+    enable = true;
+    user = "ottersome";
+    dataDir = "/home/ottersome/synced";
+     overrideDevices = true;     # overrides any devices added or deleted through the WebUI
+    overrideFolders = true;     # overrides any folders added or deleted through the WebUI
+    settings = {
+      # devices = {
+      #   "device1" = { id = "DEVICE-ID-GOES-HERE"; };
+      #   "device2" = { id = "DEVICE-ID-GOES-HERE"; };
+      # };
+      # folders = {
+      #   "Documents" = {         # Name of folder in Syncthing, also the folder ID
+      #     path = "/home/myusername/Documents";    # Which folder to add to Syncthing
+      #     devices = [ "device1" "device2" ];      # Which devices to share the folder with
+      #   };
+      #   "Example" = {
+      #     path = "/home/myusername/Example";
+      #     devices = [ "device1" ];
+      #     ignorePerms = false;  # By default, Syncthing doesn't sync file permissions. This line enables it for this folder.
+      #  };
+      };
+  };
+
   services.asusd = {
   	enable = true;
     # enableUserService = true;
@@ -194,47 +239,48 @@
 
 # Comment out to let gnome take care of it.
 
-  services.tlp = {
-      enable = true;
-      settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-
-        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
-
-        RUNTIME_PM_ON_AC="auto";
-        RUNTIME_PM_ON_BAT="auto";
-
-        PLATFORM_PROFILE_ON_AC="performance";
-        PLATFORM_PROFILE_ON_BAT="low-power";
-
-        CPU_MIN_PERF_ON_AC = 0;
-        CPU_MAX_PERF_ON_AC = 40;
-        CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
-
-       #Optional helps save long term battery health
-       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-
-      };
-	};
+ #  services.tlp = {
+ #      enable = true;
+ #      settings = {
+ #        CPU_SCALING_GOVERNOR_ON_AC = "performance";
+ #        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+	#
+ #        CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+ #        CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+	#
+ #        RUNTIME_PM_ON_AC="auto";
+ #        RUNTIME_PM_ON_BAT="auto";
+	#
+ #        PLATFORM_PROFILE_ON_AC="performance";
+ #        PLATFORM_PROFILE_ON_BAT="low-power";
+	#
+ #        CPU_MIN_PERF_ON_AC = 0;
+ #        CPU_MAX_PERF_ON_AC = 40;
+ #        CPU_MIN_PERF_ON_BAT = 0;
+ #        CPU_MAX_PERF_ON_BAT = 20;
+	#
+ #       #Optional helps save long term battery health
+ #       START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
+ #       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+	#
+ #      };
+	# };
   services.power-profiles-daemon.enable = false;
 
-  # services.auto-cpufreq = {
-  #   enable = true;
-  # };
-  # services.auto-cpufreq.settings = {
-  #   battery = {
-  #     governor = "powersave";
-  #     turbo = "never";
-  #   };
-  #   charger = {
-  #     governor = "performance";
-  #     turbo = "auto";
-  #   };
-  #  };
+  services.auto-cpufreq = {
+    enable = true;
+  };
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+   };
+  powerManagement.powertop.enable = true;
 
   # For android mirroring:
   programs.adb.enable=true;

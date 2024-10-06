@@ -102,7 +102,7 @@
         modules = [
             ./modules/users/personal.nix
             ./nixos/laptop_configuration.nix
-            # inputs.auto-cpufreq.nixosModules.default
+            inputs.auto-cpufreq.nixosModules.default
           ];
       };
     };
