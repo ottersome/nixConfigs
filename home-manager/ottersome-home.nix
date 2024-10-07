@@ -109,6 +109,7 @@ in
       ttgo # Oh yeah 
       gh
       git-filter-repo
+      pkgs.onlyoffice-bin
 
       ### For ZSH
       fzf
