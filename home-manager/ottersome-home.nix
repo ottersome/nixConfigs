@@ -259,6 +259,9 @@ in
     # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
     source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/eww;
   };
+  xdg.configFile."sioyek" = {
+    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/sioyek;
+  };
 
   # Kitty Stuff
   home.file.".config/kitty" = {
