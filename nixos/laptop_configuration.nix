@@ -42,7 +42,7 @@
         enable = true;
         xwayland.enable = true;
         # systemd.enable = true;
-        package = inputs.hyprland.packages."${unstablePkgs.stdenv.hostPlatform.system}".hyprland;
+        # package = inputs.hyprland.packages."${unstablePkgs.stdenv.hostPlatform.system}".hyprland;
         # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
         # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
         portalPackage =  inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
