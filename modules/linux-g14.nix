@@ -27,6 +27,11 @@ buildLinux (
             hash = "sha256-gxOeked6K9In+n5TwBCaxNJbk+4JNc2i4FYJYPOx2Sk=";
           };
         };
+        realtek_sound = {
+            name = "realtek_sound";
+            # Get it from ./patches/patch_realtek.patch
+            patch = ./patches/patch_realtek.patch;
+          };
         # amdgpu-cleared-vram-for-GEM-allocations-patch = {
         #   name = "amdgpu-cleared-vram-for-GEM-allocations";
         #   patch = fetchurl {
@@ -36,8 +41,9 @@ buildLinux (
         # };
       in
       [
-        g14-patch
-        # amdgpu-cleared-vram-for-GEM-allocations-patch
+          g14-patch
+          realtek_sound
+          # amdgpu-cleared-vram-for-GEM-allocations-patch
       ];
     structuredExtraConfig = with lib.kernel; {
       HID_ASUS_ALLY = module;
