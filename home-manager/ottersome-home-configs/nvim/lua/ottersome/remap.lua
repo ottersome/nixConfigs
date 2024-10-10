@@ -59,3 +59,6 @@ keymap.set("v", "<leader>y", '"+y', { silent = false })
 keymap.set("n", "<leader>p", '"+p', { silent = false })
 keymap.set("i", "<C-v>", '<C-R><C-P>"', { silent = false })
 keymap.set("i", "<C-g>", "<C-R><C-P>+", { silent = false })
+
+-- 2024-10-10: Adding Sorting
+keymap.set("v","<leader>s", scmd("sort"), {silent = true})
