@@ -205,10 +205,14 @@ in
   #  enable = true;
   #};
   # UI Configs
-  home.file."/home/ottersome/.config/hypr/"= {
-    source = ./ottersome-home-configs/hypr;
-    recursive = false;
-  };
+  # home.file."/home/ottersome/.config/hypr/"= {
+  #   source = ./ottersome-home-configs/hypr;
+  #   recursive = false;
+  # };
+  home.activation.copyHyprConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p ${config.home.homeDirectory}/.config/hypr
+    cp -r /etc/nixos/home-manager/ottersome-home-configs/hypr/* ${config.home.homeDirectory}/.config/hypr/
+  '';
   home.file."/home/ottersome/.config/waypaper/"= {
     source = ./ottersome-home-configs/waypaper;
     recursive = false;
