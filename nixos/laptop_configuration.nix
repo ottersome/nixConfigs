@@ -24,6 +24,7 @@
 ];
 
   # Specialisations
+  # services.power-profiles-daemon.enable = true;
   specialisation = {
     plasma.configuration = {
       services.xserver.enable = true;
@@ -37,7 +38,6 @@
       programs.waybar = {
         enable = true;
       };
-      services.power-profiles-daemon.enable = true;
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
@@ -67,7 +67,7 @@
   #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x03[0-9]*", ATTR{power/control}="auto", ATTR{remove}="1"
   #     '';
   #     boot.blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_modeset" ];
-  #
+
 
   # For pre-built CUDA packages
   nix.settings = {
@@ -190,7 +190,7 @@
 
   services.asusd = {
   	enable = true;
-    # enableUserService = true;
+    enableUserService = true;
     package= unstablePkgs.asusctl;
   };
 
@@ -236,8 +236,8 @@
       turbo = "auto";
     };
    };
-  powerManagement.powertop.enable = true;
-
+  powerManagement.powertop.enable = false;
+ 
   # For android mirroring:
   programs.adb.enable=true;
 
@@ -287,7 +287,7 @@
   hardware.nvidia = {
 
     modesetting.enable = true;
-    # powerManagement.finegrained = true;
+    powerManagement.finegrained = true;
     open = false;
     nvidiaSettings = false;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
@@ -397,7 +397,6 @@
     qalculate-gtk
     pciutils
     getent
-    unstablePkgs.auto-cpufreq
     fuse2
     icu.dev
     appimage-run
