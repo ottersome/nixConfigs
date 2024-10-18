@@ -141,6 +141,12 @@ in
       # appimageTools
       wdisplays
       inkscape
+      textext
+      # inkscape-with-extensions.override {
+      #   inkscapeExtensions = [
+      #     inkscape-extensions.textext
+      #   ];
+      # }
       
       # Random Falkes
       inputs.zen-browser.packages."${system}".default
