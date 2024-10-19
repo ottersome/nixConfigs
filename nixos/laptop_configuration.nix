@@ -415,6 +415,7 @@
     corefonts
     vistafonts
 
+    hyprshade
     # For linux
   ];
 
