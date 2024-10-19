@@ -92,6 +92,8 @@
   fonts.packages = with pkgs; [
     (nerdfonts.override { fonts = [ "JetBrainsMono" "DroidSansMono" ]; })
     noto-fonts-cjk-serif
+    corefonts
+    vistafonts
   ];
 
   # For linking
@@ -410,6 +412,8 @@
     #Fonts
     jetbrains-mono
     noto-fonts-cjk-serif
+    corefonts
+    vistafonts
 
     # For linux
   ];

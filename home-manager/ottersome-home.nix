@@ -75,7 +75,7 @@ in
     packages = with pkgs; [
       # System
       (rofi-wayland.override {
-        plugins = [ rofi-file-browser ];
+        plugins = [ rofi-file-browser rofi-emoji];
       })
       firefox
       pywal
@@ -141,7 +141,6 @@ in
       # appimageTools
       wdisplays
       inkscape
-      textext
       # inkscape-with-extensions.override {
       #   inkscapeExtensions = [
       #     inkscape-extensions.textext
