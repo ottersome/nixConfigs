@@ -1,9 +1,15 @@
 local Job = require("plenary.job")
 local function scmd(cmd)
   -- Limit cmd shown to 15 chars
-  vim.notify("Running command: " .. cmd:sub(1, 15), vim.log.levels.INFO)
+  local handle = io.popen("which zsh")
+  local zsh_path = handle:read("*a"):gsub("%s+", "") -- Remove any trailing newline
+  handle:close()
+  if zsh_path == "" then
+    vim.notify("zsh not found in PATH", vim.log.levels.ERROR)
+    return
+  end
 	Job:new({
-    command = '/bin/zsh',
+    command = zsh_path,
     args = { '-c', cmd },
 		on_exit = function(j, return_val)
 			if return_val == 0 then

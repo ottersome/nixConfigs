@@ -107,6 +107,7 @@ in {
       pyright
       nil
       imagemagick
+      rsync
       ];
     #   [
     #     doq
