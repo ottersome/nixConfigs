@@ -109,6 +109,8 @@ in
       ttgo # Oh yeah 
       gh
       git-filter-repo
+      unzip
+
 
       ### For ZSH
       fzf
@@ -117,6 +119,7 @@ in
       eza
       zsh-autocomplete
       kdenlive
+      zathura
 
       # UI
       feh
@@ -149,6 +152,7 @@ in
       
       # Random Falkes
       inputs.zen-browser.packages."${system}".default
+      texlive.combined.scheme-full
       # inputs.notion-app.packages."${system}".notionAppElectron # TODO: FINISH THIS
 
       filezilla
