@@ -1,6 +1,7 @@
 {
     "modules-left": ["tray"],
     "modules-center": ["hyprland/workspaces", "hyprland/mode"],
+    "include" : ["~/.config/waybar/modules.json"],
     /* "modules-right": ["tray", "custom/scratchpad-indicator", "pulseaudio", "custom/power"], */
     "modules-right": [ "custom/scratchpad-indicator", "pulseaudio",  "clock", "battery","power-profiles-daemon","custom/power"],
 
