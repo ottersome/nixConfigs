@@ -264,10 +264,14 @@ in
     mkdir -p ${config.home.homeDirectory}/.config/nvim
     cp -r /etc/nixos/home-manager/ottersome-home-configs/nvim/* ${config.home.homeDirectory}/.config/nvim/
   '';
-  xdg.configFile."waybar" = {
-    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
-    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/waybar;
-  };
+  home.activation.copyWaybarConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p ${config.home.homeDirectory}/.config/waybar
+    cp -r /etc/nixos/home-manager/ottersome-home-configs/waybar/* ${config.home.homeDirectory}/.config/waybar/
+  '';
+  # xdg.configFile."waybar" = {
+  #   # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+  #   source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/waybar;
+  # };
   xdg.configFile."eww" = {
     # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
     source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/eww;
