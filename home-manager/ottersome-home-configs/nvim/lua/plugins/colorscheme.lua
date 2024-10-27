@@ -20,6 +20,7 @@ return {
 		-- end,
 	},
   {"fcancelinha/nordern.nvim"},
+  {"yorumicolors/yorumi.nvim"}, -- Dark colorscheme
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
