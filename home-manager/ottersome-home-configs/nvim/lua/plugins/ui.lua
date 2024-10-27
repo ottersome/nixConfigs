@@ -23,8 +23,13 @@ return {
 					show_symbol_lineno = true,
 				},
 				outline_window = {
-					width = 25,
+          position = 'left',
+					width = 20,
+
 				},
+        symbols = {
+          filter = { 'String', 'Variable', exclude=true},
+        },
 			})
 		end,
 	},
