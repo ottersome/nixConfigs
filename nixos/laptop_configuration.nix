@@ -24,7 +24,7 @@
 ];
 
   # Specialisations
-  # services.power-profiles-daemon.enable = true;
+  services.power-profiles-daemon.enable = false;
   specialisation = {
     plasma.configuration = {
       services.xserver.enable = true;
