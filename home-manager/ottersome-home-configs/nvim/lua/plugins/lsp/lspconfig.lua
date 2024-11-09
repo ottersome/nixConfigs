@@ -121,6 +121,14 @@ return {
 				return vim.fn.getcwd()
 			end,
 		})
+		lspconfig["texlab"].setup({
+      cmd = { 'texlab' },
+			-- capabilities = capabilities,
+			on_attach = on_attach,
+			root_dir = function(fname) --TODO: dont know if I want to change this to someting that looks at .git
+				return vim.fn.getcwd()
+			end,
+		})
 		lspconfig["ruff_lsp"].setup({
       cmd = { 'ruff-lsp' },
 			-- capabilities = capabilities,
