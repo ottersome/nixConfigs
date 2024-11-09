@@ -108,12 +108,14 @@ in {
       nil
       imagemagick
       rsync
+      clang-tools
+      cmake
+      texlab
       ];
     #   [
     #     doq
     #     sqlite
     #     cargo
-    #     clang
     #     cmake
     #     gcc
     #     gnumake

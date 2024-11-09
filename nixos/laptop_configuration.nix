@@ -24,7 +24,6 @@
 ];
 
   # Specialisations
-  services.power-profiles-daemon.enable = false;
   specialisation = {
     plasma_nonvidia.configuration = {
       services.xserver.enable = true;
@@ -59,9 +58,9 @@
       };
     };
     hyprland.configuration = {
-      # programs.waybar = {
-      #   enable = true;
-      # };
+      programs.waybar = {
+        enable = true;
+      };
       programs.hyprland = {
         enable = true;
         xwayland.enable = true;
@@ -69,21 +68,18 @@
         # package = inputs.hyprland.packages."${unstablePkgs.stdenv.hostPlatform.system}".hyprland;
         # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
         # package = inputs.hyprland.packages.${unstablePkgs.stdenv.hostPlatform.system}.hyprland;
-        # portalPackage =  inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+        portalPackage =  inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
       };
     };
   };
 
   # TODO: Find a less harsh way of not using nvidia to drive plasma
-  # --- Start: For completely disabling nvidia ---
+  # --- Start: For completely disabling vidia ---
   # boot.extraModprobeConfig = ''
   #   blacklist nouveau
   #   options nouveau modeset=0
   #     '';
-  #     services.udev.extraRules = ''
-  #   # Remove NVIDIA USB xHCI Host Controller devices, if present
-  #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
-  #   # Remove NVIDIA USB Type-C UCSI devices, if present
+  #     services.NVIDIA USB Type-C UCSI devices, if present
   #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
   #   # Remove NVIDIA Audio devices, if present
   #   ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
@@ -249,20 +245,21 @@
  #      };
 	# };
 
-  services.auto-cpufreq = {
-    enable = true;
-  };
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "powersave";
-      turbo = "never";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-   };
-  powerManagement.powertop.enable = false;
+  # services.auto-cpufreq = {
+  #   enable = true;
+  # };
+  # services.auto-cpufreq.settings = {
+  #   battery = {
+  #     governor = "powersave";
+  #     turbo = "never";
+  #   };
+  #   charger = {
+  #     governor = "performance";
+  #     turbo = "auto";
+  #   };
+  #  };
+  services.power-profiles-daemon.enable = true;
+  powerManagement.powertop.enable = true;
  
   # For android mirroring:
   programs.adb.enable=true;
@@ -280,6 +277,7 @@
   # For Steam
   programs.steam = {
     enable = true;
+    gamescopeSession.enable = true;
     # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     # localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
@@ -313,6 +311,7 @@
   hardware.nvidia = {
 
     modesetting.enable = true;
+    powerManagement.enable = false;
     powerManagement.finegrained = true;
     open = false;
     nvidiaSettings = false;
@@ -324,11 +323,17 @@
       # openSha256 = "sha256-Po+pASZdBaNDeu5h8sgYgP9YyFAm9ywf/8iyyAaLm+w=";
       # settingsSha256 = "sha256-WFZhQZB6zL9d5MUChl2kCKQ1q9SgD0JlP4CMXEwp2jE=";
       # persistencedSha256 = "sha256-Vz33gNYapQ4++hMqH3zBB4MyjxLxwasvLzUJsCcyY4k=";
-      version = "560.31.02";
-      sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      # version = "560.31.02";
+      # sha256_64bit = "sha256-0cwgejoFsefl2M6jdWZC+CKc58CqOXDjSi4saVPNKY0=";
+      # sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
+      # openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
+      # settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      # persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
+      version = "565.57.01";
+      sha256_64bit = "sha256-buvpTlheOF6IBPWnQVLfQUiHv4GcwhvZW3Ks0PsYLHo=";
       sha256_aarch64 = "sha256-m7da+/Uc2+BOYj6mGON75h03hKlIWItHORc5+UvXBQc=";
       openSha256 = "sha256-X5UzbIkILvo0QZlsTl9PisosgPj/XRmuuMH+cDohdZQ=";
-      settingsSha256 = "sha256-A3SzGAW4vR2uxT1Cv+Pn+Sbm9lLF5a/DGzlnPhxVvmE=";
+      settingsSha256 = "sha256-H7uEe34LdmUFcMcS6bz7sbpYhg9zPCb/5AmZZFTx1QA=";
       persistencedSha256 = "sha256-BDtdpH5f9/PutG3Pv9G4ekqHafPm3xgDYdTcQumyMtg=";
 
     };
@@ -344,6 +349,7 @@
       amdgpuBusId = "PCI:101:00:0";
     };
   };
+
   # hardware.opengl = {
   #   enable = true;
   #   package = unstablePkgs.mesa.drivers;
@@ -397,7 +403,7 @@
     };
   };
 
-  # services.supergfxd.enable = true;
+  services.supergfxd.enable = false;
 
   environment.systemPackages = with pkgs; [
     usbutils
@@ -427,6 +433,7 @@
     icu.dev
     appimage-run
     polkit_gnome
+    gimp
 
     # Management Stuff
     lshw
@@ -449,11 +456,12 @@
   users.users.ottersome.extraGroups = [ "docker" "adbusers"];
 
 
-  #services.tailscale = {
-  #  enable = true;
-  #  useRoutingFeatures = lib.mkDefault "client";
-  #  extraUpFlags = ["--login-server https://tailscale.m7.rs"];
-  #};
+  services.tailscale = {
+   enable = true;
+   useRoutingFeatures = lib.mkDefault "client";
+   extraUpFlags = ["--login-server https://tailscale.m7.rs"];
+  };
+  # networking.firewall.checkReversePath = "loose";
   #networking.firewall.allowedUDPPorts = [41641]; # Facilitate firewall punching
 
   #environment.persistence = {
