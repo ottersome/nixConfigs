@@ -133,7 +133,7 @@ vim.opt_local.foldexpr = "v:lua.MarkdownFoldExpr(v:lnum)"
 -- Activate only when editing Obsidian notes
 if string.find(current_file_dir, documents_dir, 1, true) == 1 then
 	-- Options
-	vim.cmd([[colorscheme kanagawa-wave]])
+	-- vim.cmd([[colorscheme kanagawa-wave]])
 	--- Obsidian Asks for this
 	vim.opt.conceallevel = 1
 	vim.opt.spelllang = { "en", "es" }
