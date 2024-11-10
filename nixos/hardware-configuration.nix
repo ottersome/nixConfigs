@@ -17,6 +17,10 @@
     { device = "/dev/disk/by-uuid/3960b83e-00c5-4990-87bb-f6dc84390c4f";
       fsType = "ext4";
     };
+  fileSystems."/home" =
+    { device = "/dev/mapper/vg_linuxboi-lv_home";
+      fsType = "ext4";
+    };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/EB83-DB1D";
