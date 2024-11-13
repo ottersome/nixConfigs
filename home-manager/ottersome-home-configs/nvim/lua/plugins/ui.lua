@@ -231,10 +231,10 @@ return {
 		end,
 	},
 	{
-		event = "VeryLazy",
-		"lukas-reineke/headlines.nvim",
-		dependencies = "nvim-treesitter/nvim-treesitter",
-		config = true, -- or `opts = {}`
+    event = "VeryLazy",
+    "lukas-reineke/headlines.nvim",
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true,
 	},
 	{
 		"preservim/vimux",

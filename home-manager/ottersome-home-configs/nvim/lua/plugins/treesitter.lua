@@ -52,6 +52,7 @@ return {
 					"typescript",
 					"vim",
 					"yaml",
+          "cpp",
           "dockerfile",
           "nix",
 				},
