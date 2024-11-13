@@ -273,6 +273,11 @@
 
 
   programs.thunar.enable = true;
+  programs.thunar.plugins = with pkgs.xfce; [
+    thunar-archive-plugin
+    thunar-volman
+  ];
+  programs.file-roller.enable = true; # Needed for archiving
 
   # For Steam
   programs.steam = {
