@@ -1,4 +1,4 @@
-# This is your home-manager configuration file
+# This is your home-manger configuration file
 # Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
 {
   inputs,
@@ -110,6 +110,7 @@ in
       gh
       git-filter-repo
       unzip
+      tree
 
 
       ### For ZSH
@@ -174,6 +175,7 @@ in
     ];
   };
 
+
   # For theming GTK 3.0
   gtk = {
     enable = true;
@@ -208,6 +210,14 @@ in
     # Just leave it all here 
     # extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
   };
+
+  # For dir-env ( for keeping our development projects in gcroouts and auto-loaded)
+  programs.direnv = {
+      enable = true;
+      enableZshIntegration = true; # see note on other shells below
+      nix-direnv.enable = true;
+  };
+  
 
 
   #wayland.windowManager.hyprland = {
