@@ -268,23 +268,29 @@ in
     mkdir -p ${config.home.homeDirectory}/.config/waybar
     cp -r /etc/nixos/home-manager/ottersome-home-configs/waybar/* ${config.home.homeDirectory}/.config/waybar/
   '';
-  # xdg.configFile."waybar" = {
-  #   # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
-  #   source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/waybar;
-  # };
-  xdg.configFile."eww" = {
-    # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
-    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/eww;
-  };
-  xdg.configFile."sioyek" = {
-    source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/sioyek;
-  };
-
   # Kitty Stuff
-  home.file.".config/kitty" = {
-    source = ./ottersome-home-configs/kitty;
-    recursive = true;
-  };
+  home.activation.kittyConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p ${config.home.homeDirectory}/.config/kitty
+    cp -r /etc/nixos/home-manager/ottersome-home-configs/kitty/* ${config.home.homeDirectory}/.config/kitty/
+  '';
+  home.activation.sioyek = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p ${config.home.homeDirectory}/.config/sioyek
+    cp -r /etc/nixos/home-manager/ottersome-home-configs/sioyek/* ${config.home.homeDirectory}/.config/sioyek/
+  '';
+
+  ########################################
+  ## All ways of doing this
+  ########################################
+  # 1:
+  # xdg.configFile."eww" = {
+  #   # Got to use mkOUtofStoreSymLink otherwise backups will not allow us to write
+  #   source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home-manager/ottersome-home-configs/eww;
+  # };
+  # 2:
+  # home.file.".config/kitty" = {
+  #   source = ./ottersome-home-configs/kitty;
+  #   recursive = true;
+  # };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
