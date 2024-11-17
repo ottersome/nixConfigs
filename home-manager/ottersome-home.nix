@@ -211,12 +211,6 @@ in
     # extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
   };
 
-  # For dir-env ( for keeping our development projects in gcroouts and auto-loaded)
-  programs.direnv = {
-      enable = true;
-      enableZshIntegration = true; # see note on other shells below
-      nix-direnv.enable = true;
-  };
   
 
 
