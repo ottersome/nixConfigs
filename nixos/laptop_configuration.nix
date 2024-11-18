@@ -476,6 +476,28 @@
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "24.05";
 
+  systemd.timers."rclone-sync-timer" = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnBootSec = "3h";
+      OnUnitActiveSec = "3h";
+      Unit = "rclone-sync-timer.service";
+    };
+  };
+  systemd.services."rclone-sync-timer" = {
+    # TODO: Ensure that the scripts is downloadin with laptop config
+    script = ''
+      #!${pkgs.runtimeShell}
+      ${pkgs.rclone}/bin/rclone sync /home/ottersome/Thesis digitalocean:laptop/Thesis
+      ${pkgs.rclone}/bin/rclone sync /home/ottersome/projects digitalocean:laptop/projects
+
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "ottersome";
+    };
+  };
+
   # For Printing
   services.printing.enable = true;
   services.avahi = {
