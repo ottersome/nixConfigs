@@ -62,3 +62,10 @@ keymap.set("i", "<C-g>", "<C-R><C-P>+", { silent = false })
 
 -- 2024-10-10: Adding Sorting
 keymap.set("v","<leader>s", scmd("sort"), {silent = true})
+
+-- 2024-11-17:Adding quiklist utils
+keymap.set("n", "<leader>cn", scmd("cnext"), { silent = false })
+keymap.set("n", "<leader>cp", scmd("cprevious"), { silent = false })
+keymap.set("n", "<leader>cq", scmd("cclose"), { silent = false })
+keymap.set("n", "<leader>co", scmd("copen"), { silent = false })
+
