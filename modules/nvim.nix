@@ -91,9 +91,9 @@ in {
 
 
   programs.neovim  = {
+    # package = pkgs.neovim-unwrapped;
     package = overlayed.neovim-unwrapped;
-    # package = overlayed.neovim-unwrapped;
-	# package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+    # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     enable = true;
 
     withNodeJs = true;

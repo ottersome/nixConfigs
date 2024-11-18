@@ -3,8 +3,9 @@
 
   inputs = {
     # Nixpkgs
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
@@ -35,7 +36,7 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-unstable,
+    nixpkgs-stable,
     poetryPkgs,
     home-manager,
     ...
@@ -46,9 +47,13 @@
       host_name = "trashcan";
     };
     system = "x86_64-linux";
-    unstablePkgs = import nixpkgs-unstable {
-    	inherit system;
-      config.allowUnfree = true;
+    #unstablePkgs = import nixpkgs-unstable {
+    #	inherit system;
+    #  config.allowUnfree = true;
+    #};
+    stablepkgs = import nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
     };
     inherit (nixpkgs) lib; #TOREM:
     pkgs = import nixpkgs {
@@ -97,7 +102,7 @@
       };
       "mobile" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
-        specialArgs = {inherit inputs unstablePkgs passing_down pkgs;};
+        specialArgs = {inherit inputs stablepkgs passing_down pkgs;};
         # > Our main nixos configuration file <
         modules = [
             ./modules/users/personal.nix
@@ -117,7 +122,7 @@
         pkgs =  specialPkgs;
         extraSpecialArgs = {
             pkgs = specialPkgs;
-            inherit inputs  outputs unstablePkgs poetryPkgs;
+            inherit inputs  outputs stablepkgs poetryPkgs;
           };
         # > Our main home-manager configuration file <
         modules = [./home-manager/ottersome-home.nix];

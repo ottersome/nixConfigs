@@ -5,7 +5,7 @@
   lib,
   config,
   pkgs,
-  unstablePkgs,
+  stablepkgs,
   passing_down,
   ...
 }: {
@@ -20,7 +20,7 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
-    ../modules/CHINESE.nix
+    # ../modules/CHINESE.nix
 ];
 
   # Specialisations
@@ -29,6 +29,11 @@
     plasma_nonvidia.configuration = import ./specialisations/plasma_nonNvidia.nix;
     hyprland.configuration = import ./specialisations/hyprland.nix;
     gnome.configuration = import ./specialisations/gnome.nix;
+  };
+
+  environment.sessionVariables = {
+    WLR_DRM_DEVICES = "/dev/dri/card1";
+    KWIN_DRM_DEVICES = "/dev/dri/card1";
   };
 
   # TODO: Find a less harsh way of not using nvidia to drive plasma
@@ -171,7 +176,7 @@
   services.asusd = {
   	enable = true;
     enableUserService = true;
-    package= unstablePkgs.asusctl;
+    package= pkgs.asusctl;
   };
 
 # Comment out to let gnome take care of it.
@@ -308,19 +313,19 @@
         enableOffloadCmd = true;
       };
       # You must conver lshw ids from hex to decimal
-      nvidiaBusId = "PCI:100:00:0";
+      nvidiaBusId = "PCI:101:00:0";
       amdgpuBusId = "PCI:101:00:0";
     };
   };
 
-  # hardware.opengl = {
-  #   enable = true;
-  #   package = unstablePkgs.mesa.drivers;
-  #   #TODO:
-  #   # enable32bit = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  # };
+  hardware.opengl = {
+    enable = true;
+    # package = unstablePkgs.mesa.drivers;
+    #TODO:
+    # enable32bit = true;
+    # driSupport = true;
+    # driSupport32Bit = true;
+  };
   
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -370,7 +375,7 @@
 
   environment.systemPackages = with pkgs; [
     usbutils
-    git
+    stablepkgs.git
     tmux
     rsync
     btop
@@ -397,6 +402,7 @@
     appimage-run
     polkit_gnome
     gimp
+    onedriver
 
     # Management Stuff
     lshw
@@ -455,6 +461,9 @@
       User = "ottersome";
     };
   };
+
+  # Onederiver
+  #services.onedrive.enable = true;
 
   # For Printing
   services.printing.enable = true;

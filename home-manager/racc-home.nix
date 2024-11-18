@@ -48,6 +48,7 @@
       pi-hole
     ];
     sessionVariables = {
+      WLR_DRM_DEVICES = "/dev/dri/card1";
       EDITOR = "nvim";
     };
   };

@@ -5,7 +5,7 @@
   lib,
   config,
   pkgs,
-  unstablePkgs,
+  stablepkgs,
   poetryPkgs,
   ...
 }: 
@@ -69,14 +69,10 @@ in
       })
       firefox
       pywal
-      onedriver
-      bluetuith
       obs-studio
       wl-clipboard
       xdg-utils
       upower
-      swww
-      eww
       hyprpaper
       # Command LIne Utilities
       bat
@@ -130,14 +126,12 @@ in
       hyprshot
       flameshot
       telegram-desktop
-      # papirus-icon-theme # Not working so fark with gtk 
-      # For thunar thumbnailing
       xfce.tumbler 
       ffmpegthumbnailer
       lxappearance
-      # appimageTools
       wdisplays
       inkscape
+      
       # inkscape-with-extensions.override {
       #   inkscapeExtensions = [
       #     inkscape-extensions.textext
@@ -183,10 +177,10 @@ in
         accent = "lavender";
       };
     };
-    cursorTheme = {
-      name = "Catppuccin-Mocha-Light-Cursors";
-      package = pkgs.catppuccin-cursors.mochaLight;
-    };
+    # cursorTheme = {
+    #   name = "Catppuccin-Mocha-Light-Cursors";
+    #   package = pkgs.catppuccin-cursors.mochaLight;
+    # };
     gtk3 = {
       extraConfig.gtk-application-prefer-dark-theme = true;
     };
@@ -198,11 +192,12 @@ in
 
   # Enable home-manager and git
   programs.home-manager.enable = true;
-  programs.git = {
-    enable = true;
+  #programs.git = {
+  #  enable = true;
+  #  package = stablepkgs.git;
     # Just leave it all here 
     # extraConfig = fileContents ./ottersome-home-configs/git/.gitconfig_global;
-  };
+  #};
 
   
 
@@ -301,4 +296,7 @@ in
   #      package = pkgs.i3-gaps;
   #      extraConfig = "";
   #};
+
+  # Avoid being in sync problem:
+  home.enableNixpkgsReleaseCheck = false;
 }
