@@ -35,7 +35,7 @@ in
       export NIX_LD=$(nix eval --impure --raw --expr 'let pkgs = import <nixpkgs> {}; NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker"; in NIX_LD')
     '';
     extraConfigAfterCompInit = fileContents ./ottersome-home-configs/zsh/.zshrc_afterCompInit;
-    in {
+  in {
     enable = true;
     # enableCompletion = true;
     enableCompletion = true; # for zsh-completions
@@ -111,6 +111,9 @@ in
       git-filter-repo
       unzip
       tree
+      rclone
+      tokei
+      ranger
 
 
       ### For ZSH
@@ -180,8 +183,8 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "Breeze-Dark";
-      package = pkgs.libsForQt5.breeze-gtk;
+      name = "Nordic";
+      package = pkgs.nordic;
     };
     iconTheme = {
       name = "Papirus-Dark";
@@ -239,11 +242,7 @@ in
   #  recursive = false;
   #};
 
-  # Tmux Stuff
-  home.file.".config/tmux/tmux.conf" = {
-    source = ./ottersome-home-configs/tmux/tmux.conf;
-    recursive = false;
-  };
+
   # home.file.".config/hyprpaper" = {
   #   source = ./ottersome-home-configs/hyp;
   #   recursive = false;
@@ -267,6 +266,10 @@ in
   home.activation.copyNvimConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p ${config.home.homeDirectory}/.config/nvim
     cp -r /etc/nixos/home-manager/ottersome-home-configs/nvim/* ${config.home.homeDirectory}/.config/nvim/
+  '';
+  home.activation.copyTmuxConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    mkdir -p ${config.home.homeDirectory}/.config/tmux
+    cp -r /etc/nixos/home-manager/ottersome-home-configs/tmux/* ${config.home.homeDirectory}/.config/tmux/
   '';
   home.activation.copyWaybarConfigs = lib.hm.dag.entryAfter ["writeBoundary"] ''
     mkdir -p ${config.home.homeDirectory}/.config/waybar
