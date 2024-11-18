@@ -50,16 +50,6 @@ in
         "poetry"
         "git"
 
-        # {
-        #   name="fzf-tab";
-        #   src=pkgs.fetchFromGithub {
-        #     owner = "Aloxaf";
-        #     repo = "fzf-tab";
-        #   };
-        # }
-        # UNCOMMENT: If not using nix
-
-
       ];
     };
     # Pull info from ./ottersome-home.nix/zsh/.zshrc
