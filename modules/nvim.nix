@@ -1,4 +1,4 @@
-{ config, lib, pkgs, unstablePkgs, inputs, ... }:
+{ config, lib, pkgs, stablepkgs, inputs, ... }:
 # Courtery of: https://geanmar.com/posts/how-to-setup-nvim-on-nixos/
 with lib;
 let
@@ -6,6 +6,7 @@ let
       acl
       attr
       bzip2
+      stablepkgs.pcre
       curl
       libsodium
       libssh
@@ -24,13 +25,13 @@ let
       poetry
   ];
 
-  overlayed = import <nixpkgs> {
-    system = "x86_64-linux";
-    config.allowUnfree = true;
-    overlays = [
-      (import ../overlays/neovim10.nix)
-    ];
-  };
+  # overlayed = import <nixpkgs> {
+  #   system = "x86_64-linux";
+  #   config.allowUnfree = true;
+  #   overlays = [
+  #     (import ../overlays/neovim10.nix)
+  #   ];
+  # };
   makePkgConfigPath = x: makeSearchPathOutput "dev" "lib/pkgconfig" x;
   makeIncludePath = x: makeSearchPathOutput "dev" "include" x;
 
@@ -91,8 +92,8 @@ in {
 
 
   programs.neovim  = {
-    # package = pkgs.neovim-unwrapped;
-    package = overlayed.neovim-unwrapped;
+    package = pkgs.neovim-unwrapped;
+    # package = overlayed.neovim-unwrapped;
     # package = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
     enable = true;
 
@@ -110,7 +111,9 @@ in {
       rsync
       clang-tools
       cmake
+      gcc
       texlab
+      gnutar
       ];
     #   [
     #     doq

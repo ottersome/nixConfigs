@@ -34,6 +34,10 @@
   environment.sessionVariables = {
     WLR_DRM_DEVICES = "/dev/dri/card1";
     KWIN_DRM_DEVICES = "/dev/dri/card1";
+    # __NV_PRIME_RENDER_OFFLOAD = "1";
+    # __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    # __VK_LAYER_NV_optimus = "1";
+    # __NV_PRIME_RENDER_OFFLOAD_PROVIDER = "NVIDIA-GO";
   };
 
   # TODO: Find a less harsh way of not using nvidia to drive plasma
@@ -106,8 +110,6 @@
   # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ../modules/linux-g14.nix {});
-
-  boot.kernelParams = ["module_blacklist=nouveau"];
 
   networking.hostName = "${passing_down.host_name}";
 
@@ -278,11 +280,11 @@
   services.xserver.videoDrivers = ["amdgpu" "nvidia"];
   hardware.nvidia = {
 
-    modesetting.enable = true;
+    modesetting.enable = false;
     powerManagement.enable = false;
     powerManagement.finegrained = true;
     open = false;
-    nvidiaSettings = false;
+    nvidiaSettings = true;
     # package = config.boot.kernelPackages.nvidiaPackages.beta;
     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
       # version = "550.107.02";
@@ -320,6 +322,7 @@
 
   hardware.opengl = {
     enable = true;
+    extraPackages = with pkgs; [mesa mesa.drivers];
     # package = unstablePkgs.mesa.drivers;
     #TODO:
     # enable32bit = true;

@@ -5,7 +5,7 @@
     # Nixpkgs
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
 
     hyprland.url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
@@ -54,6 +54,11 @@
     stablepkgs = import nixpkgs-stable {
         inherit system;
         config.allowUnfree = true;
+	overlays = [
+	   # (import ./overlays/git.nix)
+	   (import ./overlays/neovim10.nix)
+	];
+
     };
     inherit (nixpkgs) lib; #TOREM:
     pkgs = import nixpkgs {
